@@ -29,17 +29,18 @@ class SuccessScanFragment : Fragment() {
         val safeArgs: SuccessScanFragmentArgs by navArgs() // é a instancia do segundo fragment + Args
         val code =
             safeArgs.code //recebe o valor do primeiro fragment, é definido em nav_graph arguments
-        //
-        binding.fragmentSuccessTextViewCode.text =
-            code //exibe o valor recebido do primeiro Fragment
+
+        val key = code.substring(0..43)
+        //exibe o valor recebido do primeiro Fragment,mas só os primeiros 44 caracteres
+        binding.fragmentSuccessTextViewCode.text = key
 
         binding.fragmentSuccessButtonBackToScanner.setOnClickListener {
             findNavController().navigateUp() //botão voltar ao scanner
         }
 
         binding.fragmentSuccessButtonSair.setOnClickListener {
-        //precisa definir um caminho para este botão
-         findNavController().navigate(R.id.action_successScanFragment_to_nav_listas)
+            //precisa definir um caminho para este botão
+            findNavController().navigate(R.id.action_successScanFragment_to_nav_listas)
         }
 
         val root: View = binding.root
