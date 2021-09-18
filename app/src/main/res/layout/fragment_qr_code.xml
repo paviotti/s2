@@ -3,16 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.scanner.QrCodeFragment"
-    android:layout_marginTop="100dp"
-    android:layout_marginLeft="80dp"
-    android:layout_marginRight="80dp"
-    android:layout_marginBottom="220dp">
+    tools:context=".ui.scanner.QrCodeFragment">
 
     <androidx.camera.view.PreviewView
         android:id="@+id/fragment_scan_barcode_preview_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"/>
 
     <ProgressBar
         android:id="@+id/fragment_scan_barcode_progress_bar"
