@@ -15,10 +15,15 @@
     <string name="menu_supermercados">Supermercados</string>
     <string name="menu_listas">Listas</string>
     <string name="menu_qr_code">QrCode</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="nova_nota">Copiar outra nota</string>
     <string name="sair">Sair</string>
     <string name="copiado_com_sucesso">Copiado com sucesso</string>
+    <string name="entrar">Entrar</string>
+    <string name="nao_tem_uma_conta_registre_se">Não tem uma conta? Registre-se.</string>
+    <string name="senha">Senha</string>
+    <string name="e_mail">E-mail</string>
 
 </resources>

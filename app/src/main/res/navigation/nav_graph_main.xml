@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main"
-    app:startDestination="@id/nav_listas">
+    app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/nav_supermercados"
         android:name="com.paviotti.s2.ui.supermercados.SupermercadoFragment"
@@ -41,6 +41,15 @@
             app:destination="@id/nav_qr_code" />
         <action
             android:id="@+id/action_successScanFragment_to_nav_listas"
+            app:destination="@id/nav_listas" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.paviotti.s2.ui.auth.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_nav_listas"
             app:destination="@id/nav_listas" />
     </fragment>
 </navigation>
