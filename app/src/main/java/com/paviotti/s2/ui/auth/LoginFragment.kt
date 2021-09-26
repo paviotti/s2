@@ -39,6 +39,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         //chama as funções
         isUserLoggedIn()
         doLogin()
+        goToSignUpPage()
     }
 
     //verifica se está logado, se estiver, não passa mais pela tela de login, senão vai para a função abaixo, doLogin()
@@ -56,6 +57,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             //chama as funções
             validateCredentials(email, password)
             signIn(email, password)
+        }
+    }
+
+    //se não estiver logado, vai para a tela de registro
+    private fun goToSignUpPage(){
+        binding.txtSignUp.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
     }
 

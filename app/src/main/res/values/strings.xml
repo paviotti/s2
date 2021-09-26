@@ -25,5 +25,8 @@
     <string name="nao_tem_uma_conta_registre_se">Não tem uma conta? Registre-se.</string>
     <string name="senha">Senha</string>
     <string name="e_mail">E-mail</string>
+    <string name="usuario">Usuário</string>
+    <string name="confirme_a_senha">confirme a Senha</string>
+    <string name="registrar">Registrar</string>
 
 </resources>

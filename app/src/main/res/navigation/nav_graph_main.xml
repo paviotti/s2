@@ -51,5 +51,21 @@
         <action
             android:id="@+id/action_loginFragment_to_nav_listas"
             app:destination="@id/nav_listas" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.paviotti.s2.ui.auth.RegisterFragment"
+        android:label="Registrar-se"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_nav_listas"
+            app:destination="@id/nav_listas" />
     </fragment>
 </navigation>

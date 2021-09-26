@@ -7,4 +7,8 @@ class AuthRepositoryImplement(private val dataSource: AuthDataSource):AuthReposi
     override suspend fun signIn(email: String, password: String): FirebaseUser? {
         return dataSource.signIn(email, password)
     }
+
+    override suspend fun signUn(email: String, password: String, username: String): FirebaseUser? =
+        dataSource.signUp(email,password, username) //chama AuthDataSource
+
 }

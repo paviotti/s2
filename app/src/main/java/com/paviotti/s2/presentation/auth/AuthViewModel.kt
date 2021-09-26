@@ -1,5 +1,6 @@
 package com.paviotti.s2.presentation.auth
 
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
@@ -15,6 +16,16 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
             emit(Result.Success(repository.signIn(email, password))) //passa o método signIn acima
         } catch (e: Exception) {
             emit(Result.Failure(e)) //passa um erro
+        }
+    }
+
+    //inscrever-se, recebe os dados de Register.Fragment.kt
+    fun signUp(email: String, password: String, username:String)= liveData(Dispatchers.IO){
+        emit(Result.Loading())
+        try {
+            emit(Result.Success(repository.signUn(email, password, username))) //passa os dados para AuthRepository.kt
+        }catch (e:Exception){
+            emit(Result.Failure(e))
         }
     }
 }
