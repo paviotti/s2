@@ -1,11 +1,26 @@
 package com.paviotti.s2.data.remote.auth
 
+import android.graphics.Bitmap
+import android.net.Uri
 import android.provider.ContactsContract
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.paviotti.s2.data.model.User
 import kotlinx.coroutines.tasks.await
+import java.io.ByteArrayOutputStream
+
+/**
+ * Orerações realizadas aqui:
+ * autenticação no FirebaseAuth (signIn);
+ *
+ * criação de um usuário no FrebaseAuth (signUp);
+ *
+ * gravação de uma foto no FirebaseStorage usando como referência o ID do usuário Auth (updateUserProfile);
+ * Comando putBytes()
+ * */
 
 /** Faz o acesso ao Firebase Auth e signIn = autentica, .signInWithEmailAndPassword(email, password) */
 class AuthDataSource {
@@ -29,10 +44,31 @@ class AuthDataSource {
          * */
         authResult.user?.uid?.let { uid ->
             FirebaseFirestore.getInstance().collection("users").document(uid)
-                    /** aqui é gravado no Firestore os dados do usuario User.kt*/
+                /** aqui é gravado no Firestore os dados do usuario User.kt*/
                 .set(User(email, username, "photo_url.PNG a ser inserido depois")).await()
         }
-
         return authResult.user
+    }
+
+    //https://www.udemy.com/course/curso-definitivo-para-aprender-a-programar-en-android/learn/lecture/26519106#overview
+    /**não retorna nada porque ela atualiza o Firebase com o nome e a foto do usuário*/
+    suspend fun updateUserProfile(imageBitmap: Bitmap, username: String) {
+        /** pegar o usuario*/
+        val user = FirebaseAuth.getInstance().currentUser
+
+        /** em FirebaseStorage, criar uma pasta user.uid/profile_picture */
+        val imagRef = FirebaseStorage.getInstance().reference.child("${user?.uid}/profile_picture")
+        val baos = ByteArrayOutputStream()
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        /** sobe a foto para o Firebase e pega a URL da imagRef*/
+        val downloadUrl =
+            imagRef.putBytes(baos.toByteArray()).await().storage.downloadUrl.await().toString()
+
+        /** https://firebase.google.com/docs/auth/android/manage-users#kotlin+ktx*/
+        val profileUpdates = userProfileChangeRequest {
+            displayName = username //"Roberto"
+            photoUri = Uri.parse(downloadUrl)
+        }
+        user?.updateProfile(profileUpdates)?.await() //atualiza os dados
     }
 }

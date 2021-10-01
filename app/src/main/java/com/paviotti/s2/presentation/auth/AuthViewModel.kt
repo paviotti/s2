@@ -1,6 +1,7 @@
 package com.paviotti.s2.presentation.auth
 
 
+import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
@@ -25,6 +26,18 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
         try {
             emit(Result.Success(repository.signUn(email, password, username))) //passa os dados para AuthRepository.kt
         }catch (e:Exception){
+            emit(Result.Failure(e))
+        }
+    }
+
+    /**
+     * *atualiza os dados inseridos no Profile, passando a foto e o nome do usuário
+     * os dados vem do Fragment_setup_profile*/
+    fun updateUserProfile(imageBitmap: Bitmap, username: String)=liveData(Dispatchers.IO){
+    emit(Result.Loading())
+        try {
+            emit(Result.Success(repository.updateProfile (imageBitmap, username)))
+        }catch (e: Exception){
             emit(Result.Failure(e))
         }
     }

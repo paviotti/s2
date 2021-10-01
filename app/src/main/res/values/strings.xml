@@ -28,5 +28,9 @@
     <string name="usuario">Usuário</string>
     <string name="confirme_a_senha">confirme a Senha</string>
     <string name="registrar">Registrar</string>
+    <string name="nome_do_usuario">Nome do usuário</string>
+    <string name="salvar_perfil">Salvar perfil</string>
+    <string name="descricao_da_foto">Descrição da foto</string>
+    <string name="enviar_foto">Enviar Foto</string>
 
 </resources>

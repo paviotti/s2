@@ -11,9 +11,9 @@
         tools:layout="@layout/fragment_supermercado" />
     <fragment
         android:id="@+id/nav_perfil"
-        android:name="com.paviotti.s2.ui.perfil.PerfilFragment"
+        android:name="com.paviotti.s2.ui.auth.SetupProfileFragment"
         android:label="Perfil"
-        tools:layout="@layout/fragment_perfil" />
+        tools:layout="@layout/fragment_setup_profile" />
     <fragment
         android:id="@+id/nav_qr_code"
         android:name="com.paviotti.s2.ui.scanner.QrCodeFragment"
