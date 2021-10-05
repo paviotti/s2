@@ -6,6 +6,6 @@ import java.lang.Exception
 //retorna uma lista do que quizer, na sequencia
 sealed class Result<out T> {
     class Loading<out T> : Result<T>() //retorna um construtor vazio
-    data class Success<out T>(val data: T) : Result<T>()
-    data class Failure(val exception: Exception) : Result<Nothing>()//retorna qualquer tipo de exc eção
+    data class Success<out T>(val data: T) : Result<T>() //retorna uma lista ou qualquer outro dado
+    data class Failure(val exception: Exception) : Result<Nothing>()//retorna qualquer tipo de exceção
 }

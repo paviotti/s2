@@ -16,7 +16,9 @@ import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.fragment.app.viewModels
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.paviotti.s2.R
 import com.paviotti.s2.data.remote.auth.AuthDataSource
 import com.paviotti.s2.databinding.FragmentSetupProfileBinding

@@ -10,5 +10,5 @@ data class Produto(
     val valor_unitario: Double = 0.0,
     val valor_tributo: Double = 0.0,
     val valor_do_item: Double = 0.0,
-    val foto: String = ""
+    val photo_url: String = ""
 )

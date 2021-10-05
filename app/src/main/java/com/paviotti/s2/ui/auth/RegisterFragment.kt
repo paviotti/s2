@@ -69,7 +69,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                     return@setOnClickListener
                 }
                 else -> {
-                    Log.d("SignUp", "dados: $userName, $password, $confirmPassword, $email")
+               //     Log.d("SignUp", "dados: $userName, $password, $confirmPassword, $email")
 
                     /**chama a função abaixo passando os dados*/
                     createUser(email, password, userName)

@@ -32,5 +32,7 @@
     <string name="salvar_perfil">Salvar perfil</string>
     <string name="descricao_da_foto">Descrição da foto</string>
     <string name="enviar_foto">Enviar Foto</string>
+    <string name="listas_de_compras">Listas de compras</string>
+    <string name="nova_lista">Nova lista</string>
 
 </resources>

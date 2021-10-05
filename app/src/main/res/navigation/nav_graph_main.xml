@@ -25,9 +25,9 @@
     </fragment>
     <fragment
         android:id="@+id/nav_listas"
-        android:name="com.paviotti.s2.ui.listas.ListaFragment"
+        android:name="com.paviotti.s2.ui.listas.ListaDeListasFragment"
         android:label="Listas"
-        tools:layout="@layout/fragment_lista" />
+        tools:layout="@layout/fragment_lista_de_listas" />
     <fragment
         android:id="@+id/successScanFragment"
         android:name="com.paviotti.s2.ui.scanner.SuccessScanFragment"
