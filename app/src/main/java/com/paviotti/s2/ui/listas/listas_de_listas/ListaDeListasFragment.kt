@@ -1,4 +1,4 @@
-package com.paviotti.s2.ui.listas
+package com.paviotti.s2.ui.listas.listas_de_listas
 
 import android.app.AlertDialog
 
@@ -11,17 +11,20 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.paviotti.s2.R
 import com.paviotti.s2.core.Result
 
 import com.paviotti.s2.data.remote.ListaDeListas.ListaDeListasDataSource
 import com.paviotti.s2.databinding.FragmentListaDeListasBinding
 import com.paviotti.s2.domain.listadelistas.ListaDeListasRepositoryImplement
+import com.paviotti.s2.presentation.listadelistas.ClickList
 import com.paviotti.s2.presentation.listadelistas.ListaDeListasViewModel
 import com.paviotti.s2.presentation.listadelistas.ListaDeListasViewModelFactory
 import com.paviotti.s2.ui.adapter.ListaDeListasAdapter
 
-class ListaDeListasFragment : Fragment(R.layout.fragment_lista_de_listas) {
+//adiconado a interface ClickList
+class ListaDeListasFragment : Fragment(R.layout.fragment_lista_de_listas), ClickList {
     private lateinit var binding: FragmentListaDeListasBinding
     private val viewModel by viewModels<ListaDeListasViewModel> {
         ListaDeListasViewModelFactory(
@@ -48,7 +51,11 @@ class ListaDeListasFragment : Fragment(R.layout.fragment_lista_de_listas) {
                 }
                 is Result.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    binding.rvListasDeListas.adapter = ListaDeListasAdapter(result.data)
+                    binding.rvListasDeListas.adapter = ListaDeListasAdapter(
+                        result.data,
+                        this@ListaDeListasFragment
+                    )//precisa passar o próprio contexto this@ListaDeListasFragment - aula 56
+                    //https://www.udemy.com/course/curso-definitivo-para-aprender-a-programar-en-android/learn/lecture/23919874#announcements
                     Toast.makeText(requireContext(), "Acessou", Toast.LENGTH_SHORT).show()
                 }
                 is Result.Failure -> {
@@ -99,5 +106,14 @@ class ListaDeListasFragment : Fragment(R.layout.fragment_lista_de_listas) {
         }
 
     }
+    //https://www.youtube.com/watch?v=eaMj60Lb05Q&t=1319s
+    override fun onItemClick(nomeDaLista: String) {
+    findNavController().navigate(R.id.action_nav_listas_to_listaCompletaFragment)
+//        Log.d("Total", "Click na frase")
+    }
 
+    override fun onImageclick(btn_delete: Boolean) {
+//        Toast.makeText(context, "Click na imagem $btn_delete", Toast.LENGTH_LONG).show()
+//        Log.d("Imagem", "Click imagem")
+    }
 }

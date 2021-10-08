@@ -25,9 +25,13 @@
     </fragment>
     <fragment
         android:id="@+id/nav_listas"
-        android:name="com.paviotti.s2.ui.listas.ListaDeListasFragment"
+        android:name="com.paviotti.s2.ui.listas.listas_de_listas.ListaDeListasFragment"
         android:label="Listas"
-        tools:layout="@layout/fragment_lista_de_listas" />
+        tools:layout="@layout/fragment_lista_de_listas" >
+        <action
+            android:id="@+id/action_nav_listas_to_listaCompletaFragment"
+            app:destination="@id/listaCompletaFragment" />
+    </fragment>
     <fragment
         android:id="@+id/successScanFragment"
         android:name="com.paviotti.s2.ui.scanner.SuccessScanFragment"
@@ -68,4 +72,9 @@
             android:id="@+id/action_registerFragment_to_nav_listas"
             app:destination="@id/nav_listas" />
     </fragment>
+    <fragment
+        android:id="@+id/listaCompletaFragment"
+        android:name="com.paviotti.s2.ui.listas.lista_completa.ListaCompletaFragment"
+        android:label="Lista nome anterior"
+        tools:layout="@layout/fragment_lista_completa" />
 </navigation>

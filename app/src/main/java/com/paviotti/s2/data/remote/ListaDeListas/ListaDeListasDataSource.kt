@@ -17,7 +17,6 @@ class ListaDeListasDataSource {
         user?.uid?.let { uid ->
             /** get() pega tudo de dentro da pasta listas_de_compras */
             val querySnapshot =
-                //  FirebaseFirestore.getInstance().collection("listas_de_compras").get().await()
                 FirebaseFirestore.getInstance().collection("users").document(uid)
                     .collection("listas_de_compras").get().await()
 

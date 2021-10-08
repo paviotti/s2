@@ -2,17 +2,24 @@ package com.paviotti.s2.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.paviotti.s2.R
 import com.paviotti.s2.core.Base.BaseViewHolder
 import com.paviotti.s2.data.model.ListaDeListas
 import com.paviotti.s2.databinding.ItemListaComprasBinding
+import com.paviotti.s2.presentation.listadelistas.ClickList
+import kotlinx.android.synthetic.main.item_lista_compras.view.*
 
 /** O adaptador recebe uma lista das listas (model)
  *  a classe implementa o RecyclerView e recebe um viewHolder
  *  o basic view holder será criado dentro CORE
  *  o asterisco permite qualquer viewHolder*/
-class ListaDeListasAdapter(private val listListas: List<ListaDeListas>) :
+class ListaDeListasAdapter(
+    private val listListas: List<ListaDeListas>,
+    private val itemClickList: ClickList
+) :
     RecyclerView.Adapter<BaseViewHolder<*>>() {
 
     /** cria o post, ou seja a telinha com todas as informações*/
@@ -28,7 +35,7 @@ class ListaDeListasAdapter(private val listListas: List<ListaDeListas>) :
 
     /** cria o holder*/
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
-        when(holder){
+        when (holder) {
             is ListaDeListasViewHolder -> holder.bind(listListas[position])
         }
     }
@@ -44,7 +51,17 @@ class ListaDeListasAdapter(private val listListas: List<ListaDeListas>) :
     ) : BaseViewHolder<ListaDeListas>(binding.root) {
         /** implementa o metodo bind para passar os itens da lista, ela recebe em(item: ListaDeListas)*/
         override fun bind(item: ListaDeListas) {
-            binding.itemDaLista.text = item.nome_da_lista //tópicos da tela
+            //https://www.youtube.com/watch?v=eaMj60Lb05Q
+            //click no cardView
+            binding.itemDaLista.text = item.nome_da_lista //tópicos da tela - não mexa aqui
+            if (item.btn_delete) {
+                binding.imageDelete.setImageResource(R.drawable.ic_delete_24)
+            }
+            itemView.item_da_lista.setOnClickListener { itemClickList.onItemClick(item.nome_da_lista) }
+            itemView.image_delete.setOnClickListener { itemClickList.onImageclick(item.btn_delete) }
+
+
         }
     }
+
 }

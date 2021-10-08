@@ -2,28 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_list_of_list"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp"
+    android:layout_margin="0.5dp"
     android:gravity="center"
     android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:backgroundTint="@color/teal_200"
         android:elevation="2dp"
-        card_view:cardCornerRadius="4dp">
+        app:cardCornerRadius="4dp">
+
+        <ImageView
+            android:id="@+id/image_delete"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end"
+            android:layout_margin="12dp"
+            app:srcCompat="@drawable/ic_menu_gallery" />
 
         <TextView
             android:id="@+id/item_da_lista"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:textSize="20sp"
             android:textColor="@color/black"
+            android:textSize="20sp"
             tools:text="Compra da semana" />
     </androidx.cardview.widget.CardView>
 </LinearLayout>
