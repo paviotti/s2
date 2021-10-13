@@ -11,3 +11,5 @@ class ListaViewModel : ViewModel() {
     }
     val text: LiveData<String> = _text
 }
+
+/** acho que não tem utilidade este fragment*/

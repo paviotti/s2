@@ -1,60 +1,106 @@
 package com.paviotti.s2.ui.listas.lista_completa
 
+import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
+import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.navArgs
 import com.paviotti.s2.R
+import com.paviotti.s2.core.Result
+import com.paviotti.s2.data.model.Produto
+import com.paviotti.s2.data.remote.lista_completa.ListaCompletaDataSource
+import com.paviotti.s2.databinding.FragmentListaCompletaBinding
+import com.paviotti.s2.domain.lista_completa.ListaCompletaRepository
+import com.paviotti.s2.domain.lista_completa.ListaCompletaRepositoryImplement
+import com.paviotti.s2.presentation.lista_completa.ClickListaCompleta
+import com.paviotti.s2.presentation.lista_completa.ListaCompletaViewModel
+import com.paviotti.s2.presentation.lista_completa.ListaCompletaViewModelFactory
+import com.paviotti.s2.presentation.listadelistas.ListaDeListasViewModel
+import com.paviotti.s2.ui.adapter.ListaCompletaAdapter
+import com.paviotti.s2.ui.listas.listas_de_listas.ListaDeListasFragmentDirections
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ListaCompletaFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class ListaCompletaFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lista_completa, container, false)
-    }
-
+class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickListaCompleta {
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ListaCompletaFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ListaCompletaFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        var nameListFull = ""
+    }
+
+    private lateinit var binding: FragmentListaCompletaBinding
+    private val safeArgs: ListaCompletaFragmentArgs by navArgs<ListaCompletaFragmentArgs>() // é a instancia do segundo fragment + Args
+    private val viewModel by viewModels<ListaCompletaViewModel> {
+        ListaCompletaViewModelFactory(
+            ListaCompletaRepositoryImplement(
+                ListaCompletaDataSource()
+            )
+        )
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentListaCompletaBinding.bind(view)
+        binding.titulo.text =
+            safeArgs.nameList //recebe o valor do primeiro fragment, é definido em nav_graph arguments
+        nameListFull = safeArgs.nameList //pserá passado para dataSource
+        fetchLatestListComplete()
+
+    }
+
+    fun fetchLatestListComplete() {
+        //faz a busca na lista do Firebase
+        viewModel.fetchLatestListComplete().observe(viewLifecycleOwner, Observer { result ->
+            when (result) {
+                is Result.Loading -> {
+                }
+                is Result.Success -> {
+                    //binding.titulo.text = viewModel.nomeLista
+                    binding.rvListaCompleta.adapter = ListaCompletaAdapter(
+                        result.data, this@ListaCompletaFragment
+                    )
+                }
+                is Result.Failure -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Ocorreu um erro: ${result.exception}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
+        })
     }
+
+    private fun creatNewItemList(produto: Produto) {
+        val alertDialog =
+            AlertDialog.Builder(requireContext()).setTitle("Uploding photo...").create()
+        produto.let {
+            viewModel.createNewItem(it).observe(viewLifecycleOwner, { result ->
+                when (result) {
+                    is Result.Loading -> {
+                        alertDialog.show()
+                    }
+                    is Result.Success -> {
+
+                        alertDialog.dismiss()
+                    }
+                    is Result.Failure -> {
+
+                        alertDialog.dismiss()
+                    }
+                }
+            })
+        }
+        //  Log.d("ListaDeProduto", "SafeArgs: ${safeArgs.nameList}")
+    }
+
+    //recebe os valores dos itens do produto selecionado
+    override fun onImgClick(produto: Produto) {
+        creatNewItemList(produto) //pede para incluir um produto
+        //  Log.d("produto", "dadosDoProduto: $produto")
+    }
+
 }

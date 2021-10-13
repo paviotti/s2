@@ -1,15 +1,22 @@
 package com.paviotti.s2.presentation.listadelistas
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.liveData
+import androidx.lifecycle.*
+import androidx.navigation.NavDirections
 import com.paviotti.s2.core.Result
 import com.paviotti.s2.domain.listadelistas.ListaDeListasRepository
+import com.paviotti.s2.ui.listas.listas_de_listas.ListaDeListasFragmentDirections
 import kotlinx.coroutines.Dispatchers
+
 //https://www.udemy.com/course/curso-definitivo-para-aprender-a-programar-en-android/learn/lecture/24810842#overview
 /** ListaDeListasViewModel recebe <-  ListaDeListasRepositoryFactory */
 class ListaDeListasViewModel(private val repository: ListaDeListasRepository) : ViewModel() {
+
+
+    //safeArgs, para passar o nome da lista para listaCompleta
+    private val _navigationTolist = MutableLiveData<NavDirections?>()
+    val navigationTolist: LiveData<NavDirections?> get() = _navigationTolist
+
 
     //fetch = buscar | busca em segundo plano para não bloquear o app
     fun fetchLatestList() = liveData(Dispatchers.IO) {
@@ -22,20 +29,23 @@ class ListaDeListasViewModel(private val repository: ListaDeListasRepository) : 
     }
 
     //https://www.udemy.com/course/curso-definitivo-para-aprender-a-programar-en-android/learn/lecture/26511092#announcements
-   //recebe os dados do Fragment
-    fun createNewItem(newItem: String) = liveData(Dispatchers.IO){
+    //recebe os dados do Fragment
+    fun createNewItem(newItem: String) = liveData(Dispatchers.IO) {
         emit(Result.Loading())
         try {
-          //  Log.d("ViewModel","viewModel: $newItem")
+            //  Log.d("ViewModel","viewModel: $newItem")
             emit(Result.Success(repository.createNewItem(newItem)))
-        }catch (e: Exception){
+        } catch (e: Exception) {
             emit(Result.Failure(e))
         }
     }
 }
-class ListaDeListasViewModelFactory(private val repository: ListaDeListasRepository): ViewModelProvider.Factory{
+
+class ListaDeListasViewModelFactory(private val repository: ListaDeListasRepository) :
+    ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return modelClass.getConstructor(ListaDeListasRepository::class.java).newInstance(repository)
+        return modelClass.getConstructor(ListaDeListasRepository::class.java)
+            .newInstance(repository)
     }
 
 }

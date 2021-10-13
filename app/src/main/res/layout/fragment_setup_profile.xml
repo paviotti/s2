@@ -42,5 +42,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/salvar_perfil" />
+    <Button
+        android:id="@+id/btn_logof"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Sair" />
 
 </LinearLayout>

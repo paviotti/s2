@@ -13,7 +13,11 @@
         android:id="@+id/nav_perfil"
         android:name="com.paviotti.s2.ui.auth.SetupProfileFragment"
         android:label="Perfil"
-        tools:layout="@layout/fragment_setup_profile" />
+        tools:layout="@layout/fragment_setup_profile" >
+        <action
+            android:id="@+id/action_nav_perfil_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nav_qr_code"
         android:name="com.paviotti.s2.ui.scanner.QrCodeFragment"
@@ -36,7 +40,7 @@
         android:id="@+id/successScanFragment"
         android:name="com.paviotti.s2.ui.scanner.SuccessScanFragment"
         android:label="fragment_success_scan"
-        tools:layout="@layout/fragment_success_scan" >
+        tools:layout="@layout/fragment_success_scan">
         <argument
             android:name="code"
             app:argType="string" />
@@ -75,6 +79,9 @@
     <fragment
         android:id="@+id/listaCompletaFragment"
         android:name="com.paviotti.s2.ui.listas.lista_completa.ListaCompletaFragment"
-        android:label="Lista nome anterior"
-        tools:layout="@layout/fragment_lista_completa" />
+        android:label="ListaCompletaFragment" >
+        <argument
+            android:name="nameList"
+            app:argType="string" />
+    </fragment>
 </navigation>

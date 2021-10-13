@@ -4,9 +4,12 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.getField
 import com.paviotti.s2.core.Result
 import com.paviotti.s2.data.model.ListaDeListas
+import com.paviotti.s2.data.model.Produto
 import kotlinx.coroutines.tasks.await
+import java.lang.invoke.MethodHandles
 
 //https://www.udemy.com/course/curso-definitivo-para-aprender-a-programar-en-android/learn/lecture/24810836#overview
 /** este método vai buscar informações no Firebase*/
@@ -19,6 +22,8 @@ class ListaDeListasDataSource {
             val querySnapshot =
                 FirebaseFirestore.getInstance().collection("users").document(uid)
                     .collection("listas_de_compras").get().await()
+//                FirebaseFirestore.getInstance().collection("users").document()
+//                    .get().await()
 
             // pega cada documento dentro de listas_de_compras
             for (itemList in querySnapshot.documents) {
@@ -51,8 +56,8 @@ class ListaDeListasDataSource {
         user?.uid?.let { uid ->
             val userReference = FirebaseFirestore.getInstance().collection("users")
             userReference.document(uid) //id do usuário
-                .collection("listas_de_compras").document()
-                .set(ListaDeListas(newItem)).await()
+                .collection("listas_de_compras").document().set(ListaDeListas(newItem)).await()
+            Log.d("Var", "newItem: $newItem")
         }
     }
 }

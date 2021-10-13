@@ -13,8 +13,8 @@ class ListaDeListasRepositoryImplement(private val dataSource: ListaDeListasData
 
     //busca um metodo em ListaDeListasDataSource
     override suspend fun createNewItem(newItem: String) {
-       // Log.d("Implement","implement: $newItem")
-        dataSource.createNewItem(newItem)
+       // Log.d("Var","implement: $newItem")
+        return dataSource.createNewItem(newItem)
     }
 
 }

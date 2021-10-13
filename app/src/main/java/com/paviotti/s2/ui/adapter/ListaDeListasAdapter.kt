@@ -4,23 +4,26 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
 import com.paviotti.s2.R
 import com.paviotti.s2.core.Base.BaseViewHolder
 import com.paviotti.s2.data.model.ListaDeListas
 import com.paviotti.s2.databinding.ItemListaComprasBinding
 import com.paviotti.s2.presentation.listadelistas.ClickList
+import com.paviotti.s2.presentation.listadelistas.ListaDeListasViewModel
 import kotlinx.android.synthetic.main.item_lista_compras.view.*
 
 /** O adaptador recebe uma lista das listas (model)
  *  a classe implementa o RecyclerView e recebe um viewHolder
  *  o basic view holder será criado dentro CORE
- *  o asterisco permite qualquer viewHolder*/
+ *  o asterisco permite qualquer viewHolder
+ *  O Click foi implementado para enviar para outra tela*/
 class ListaDeListasAdapter(
     private val listListas: List<ListaDeListas>,
     private val itemClickList: ClickList
-) :
-    RecyclerView.Adapter<BaseViewHolder<*>>() {
+) : RecyclerView.Adapter<BaseViewHolder<*>>() {
+
 
     /** cria o post, ou seja a telinha com todas as informações*/
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
@@ -33,7 +36,7 @@ class ListaDeListasAdapter(
         ) //chama a classe e passa 2 parametros
     }
 
-    /** cria o holder*/
+    /** cria o holder (cardView)*/
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
         when (holder) {
             is ListaDeListasViewHolder -> holder.bind(listListas[position])
@@ -59,8 +62,6 @@ class ListaDeListasAdapter(
             }
             itemView.item_da_lista.setOnClickListener { itemClickList.onItemClick(item.nome_da_lista) }
             itemView.image_delete.setOnClickListener { itemClickList.onImageclick(item.btn_delete) }
-
-
         }
     }
 

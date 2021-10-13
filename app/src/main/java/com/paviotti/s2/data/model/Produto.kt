@@ -2,7 +2,7 @@ package com.paviotti.s2.data.model
 
 data class Produto(
     val id: String = "",
-    val categoria:String="",
+    val categoria: String = "",
     val codigo_barras: String = "",
     val descricao: String = "",
     val quantidade: Double = 0.0,
@@ -10,5 +10,6 @@ data class Produto(
     val valor_unitario: Double = 0.0,
     val valor_tributo: Double = 0.0,
     val valor_do_item: Double = 0.0,
-    val photo_url: String = ""
+    val photo_url: String = "",
+    var include_item: Boolean = false
 )
