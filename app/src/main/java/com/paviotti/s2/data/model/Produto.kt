@@ -1,7 +1,7 @@
 package com.paviotti.s2.data.model
 
 data class Produto(
-    val id: String = "",
+    var id: String = "",
     val categoria: String = "",
     val codigo_barras: String = "",
     val descricao: String = "",

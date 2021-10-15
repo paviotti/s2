@@ -21,12 +21,11 @@ import kotlinx.android.synthetic.main.card_lista_completa.view.*
 class ListaCompletaAdapter(
     private val listOfProdutcts: List<Produto>, private val itemClickList: ClickListaCompleta
 ) : RecyclerView.Adapter<BaseViewHolder<*>>() {
-    var btn_del=false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         /** infla a tela xml da lista*/
         val itemBinding =
             CardListaCompletaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-
 
         /** pega o click no icone adicionar/remover do botão*/
         val holder = ListaCompletaViewHolder(itemBinding, parent.context)
@@ -35,8 +34,8 @@ class ListaCompletaAdapter(
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener //se não for, retorne
             itemClickList.onImgClick(listOfProdutcts[position]) //passa a lista de produtos ao clicar na imagem
-            btn_del = listOfProdutcts[position].include_item
-            Log.d("btn_del", " valor: $btn_del")
+           // var btn_del = listOfProdutcts[position].include_item
+
         }
         return holder
         //  return ListaCompletaViewHolder(itemBinding, parent.context)
@@ -57,6 +56,7 @@ class ListaCompletaAdapter(
         override fun bind(item: Produto) {
             binding.txtDescricao.text = item.descricao
             binding.txtUnidade.text = item.unidade
+            Log.d("btn_del", " valor abaixo: ${item.include_item}")
             if(item.include_item == false) {
                 binding.imgIncluiDelete.setImageResource(R.drawable.ic_add_circle_24_verde)
             }else{

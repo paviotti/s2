@@ -9,19 +9,20 @@ import com.paviotti.s2.core.Result
 import com.paviotti.s2.ui.listas.lista_completa.ListaCompletaFragment.Companion.nameListFull
 
 class ListaCompletaDataSource {
-    /** Esta classe lê a tabela produto completa*/
+    /** Esta classe lê a tabela produto completa (principal)*/
     suspend fun getLatestListaCompleta(): Result<List<Produto>> {
         val listProdutos = mutableListOf<Produto>()
         val user = FirebaseAuth.getInstance().currentUser
         user?.uid?.let { uid ->
             /** deve ler os dados em produtos*/
-//            val referenceProduct = FirebaseFirestore.getInstance().collection("users").document(uid)
-//////                .collection("listas_de_compras")
             val referenceProduct = FirebaseFirestore.getInstance().collection("produtos")
             val querySnapshot = referenceProduct.get().await()
+            //o for é feito dentro do documento!
             for (itemList in querySnapshot.documents) {
                 itemList.toObject((Produto::class.java))?.let { itens ->
-                    // if(itens.descricao =="Lista nova")
+                    itens.id =
+                        itemList.id //grava o id do produto na lista e os dados da lista podem ser gravados em outra tabela
+                    itens.include_item = true //altera o icone vermelho e vede
                     listProdutos.add(itens) //cria uma lista de Produto
                 }
             }
@@ -31,34 +32,53 @@ class ListaCompletaDataSource {
 
     /** cria um novo item na lista do usuário*/
     suspend fun createNewItem(newItem: Produto) {
+        lateinit var iDList: String
+        lateinit var idNameList: String
+        var exist = false
         val user = FirebaseAuth.getInstance().currentUser //pega o usuário
         user?.uid?.let { uid ->
-            val userReference = FirebaseFirestore.getInstance().collection("users").document(uid)
+            val listReference = FirebaseFirestore.getInstance().collection("users").document(uid)
                 .collection("listas_de_compras")
-
             //https://firebase.google.com/docs/firestore/query-data/queries?authuser=0
-            userReference.whereEqualTo("nome_da_lista", nameListFull)
+            listReference.whereEqualTo(
+                "nome_da_lista",
+                nameListFull
+            )//nome da lista pego em companion
                 .get() //nameListFull vem de companion object
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
-                        var iDList = document.id // ex: 4WfZL6A48BJRbB2ceAbu
-                        var idNameList = document.get("nome_da_lista").toString()
-                        var btnDelete = document.get("btn_delete").toString()
+                        iDList = document.id // pega ex: 4WfZL6A48BJRbB2ceAbu = "Lista nova"
+                        idNameList = document.get("nome_da_lista").toString()
+                        val btnDelete = document.get("btn_delete").toString()
 //                        Log.d(
 //                            "Gravando",
 //                            "id: ${document.id} => dados: ${document.get("nome_da_lista")}"
 //                        )
-                        newItem.include_item = true //para mudar a cor do botão
-                        userReference.document(iDList).collection(idNameList)
-                            .add(newItem)     //collection(idNameList).document().set(newItem).await()
+//                        Log.d("lista", "idlista:  $iDList, nomeLista: $idNameList ")
+//                        Log.d("Ittens", "Existe: ${newItem.id}") //id que vem do produto
 
-                        Log.d(
-                            "Variaveis",
-                            "IdList: $iDList idNameList: $idNameList btnDelete: $btnDelete"
-                        )
+                        listReference.document(iDList).collection(idNameList)
+                            .get().addOnSuccessListener { docs ->
+                                for (doc in docs) {
+                                    if (doc.get("id").toString().equals(newItem.id)) {
+                                        exist = true
+                                        Log.d(
+                                            "Ittens",
+                                            "doc.get(id): ${
+                                                doc.get("id").toString()
+                                            }, doc.id: ${doc.id},idProd: ${doc.get("id")}, dados completos: ${doc.data} "
+                                        )
+                                    }
+                                }
+                                if (!exist) {
+                                    listReference.document(iDList).collection(idNameList)
+                                        .add(newItem)
+                                }
+
+                            }
+
                     }
                 }
-
         }
     }
 }
