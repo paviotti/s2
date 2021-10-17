@@ -9,10 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.paviotti.s2.R
 import com.paviotti.s2.core.Base.BaseViewHolder
 import com.paviotti.s2.data.model.Produto
+import com.paviotti.s2.data.remote.lista_completa.ListaCompletaDataSource
 import com.paviotti.s2.databinding.CardListaCompletaBinding
 import com.paviotti.s2.databinding.FragmentListaCompletaBinding
 import com.paviotti.s2.presentation.lista_completa.ClickListaCompleta
 import kotlinx.android.synthetic.main.card_lista_completa.view.*
+import kotlin.properties.Delegates
 
 /** O adaptador recebe uma lista de Produto (model)
  *  a classe implementa o RecyclerView e recebe um viewHolder
@@ -34,8 +36,6 @@ class ListaCompletaAdapter(
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener //se não for, retorne
             itemClickList.onImgClick(listOfProdutcts[position]) //passa a lista de produtos ao clicar na imagem
-           // var btn_del = listOfProdutcts[position].include_item
-
         }
         return holder
         //  return ListaCompletaViewHolder(itemBinding, parent.context)
@@ -50,16 +50,19 @@ class ListaCompletaAdapter(
 
     override fun getItemCount(): Int = listOfProdutcts.size
 
+    /** pega os dados de produto e insere em nova lista*/
     private inner class ListaCompletaViewHolder(
         val binding: CardListaCompletaBinding, val context: Context
     ) : BaseViewHolder<Produto>(binding.root) {
         override fun bind(item: Produto) {
             binding.txtDescricao.text = item.descricao
             binding.txtUnidade.text = item.unidade
-            Log.d("btn_del", " valor abaixo: ${item.include_item}")
-            if(item.include_item == false) {
+            binding.txtPreco1.text = item.photo_url
+            Log.d("resultado", " item.include_item: ${item.include_item} ")
+            Log.d("resultado","url:  ${item.photo_url}")
+            if (item.include_item == false) {
                 binding.imgIncluiDelete.setImageResource(R.drawable.ic_add_circle_24_verde)
-            }else{
+            } else {
                 binding.imgIncluiDelete.setImageResource(R.drawable.ic_remove_circle_24_red)
             }
             //  itemView.img_inclui_delete.setOnClickListener {itemClickList.onImgClick(produto = Produto())}

@@ -10,6 +10,6 @@ data class Produto(
     val valor_unitario: Double = 0.0,
     val valor_tributo: Double = 0.0,
     val valor_do_item: Double = 0.0,
-    val photo_url: String = "",
+    var photo_url: String = "",
     var include_item: Boolean = false
 )

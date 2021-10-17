@@ -57,7 +57,7 @@ class ListaDeListasDataSource {
             val userReference = FirebaseFirestore.getInstance().collection("users")
             userReference.document(uid) //id do usuário
                 .collection("listas_de_compras").document().set(ListaDeListas(newItem)).await()
-            Log.d("Var", "newItem: $newItem")
+           // Log.d("Var", "newItem: $newItem")
         }
     }
 }
