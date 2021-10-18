@@ -6,21 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.listas.listas_de_listas.ListaDeListasFragment"
-    >
+    tools:context=".ui.listas.listas_de_listas.ListaDeListasFragment">
 
     <TextView
         android:id="@+id/titulo_da_lista"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:background="@color/primaryColor"
         android:gravity="center_horizontal"
-        android:padding="5dp"
+        android:padding="8dp"
         android:text="@string/listas_de_compras"
+        android:textColor="@color/secondaryLightColor"
         android:textSize="28sp"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -61,8 +58,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
-        android:hint="Nova Lista"
-        android:textColorHint="@color/white"
+        android:hint="@string/nova_lista"
+
         app:layout_constraintBottom_toTopOf="@+id/btn_new_item"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -83,6 +80,8 @@
         android:text="@string/nova_lista"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="@color/primaryColor"
+        android:textColor="@color/secondaryLightColor"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="1dp"
-    android:backgroundTint="#E0F2F1"
+    android:backgroundTint="@color/secondaryLightColor"
     app:cardCornerRadius="4dp"
-    app:cardElevation="1dp">
+    app:cardElevation="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="85dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp">
 
@@ -21,20 +21,21 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="13dp"
-            android:layout_marginEnd="120dp"
+            android:layout_marginEnd="150dp"
+            android:lines="2"
+            android:maxLength="32"
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="Arroz agulhinha extra"
-            tools:text="Arroz agulhinha extra" />
+            tools:text="Bebida Balalaika Fruits Maracujá" />
 
         <TextView
             android:id="@+id/txt_unidade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="72dp"
+            android:layout_marginEnd="95dp"
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -44,42 +45,67 @@
             android:id="@+id/txt_preco1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="320dp"
+            android:layout_marginEnd="310dp"
+            android:layout_marginBottom="8dp"
             android:textAppearance="?attr/textAppearanceListItem"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_descricao"
             tools:text="1225,80" />
+
 
         <TextView
             android:id="@+id/txt_preco2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="195dp"
+            android:layout_marginEnd="204dp"
+            android:layout_marginBottom="8dp"
             android:textAppearance="?attr/textAppearanceListItem"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_descricao"
             tools:text="1237,50" />
-
 
         <TextView
             android:id="@+id/txt_preco3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="72dp"
+            android:layout_marginEnd="95dp"
+            android:layout_marginBottom="8dp"
             android:textAppearance="?attr/textAppearanceListItem"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_descricao"
             tools:text="1240,25" />
 
+        <TextView
+            android:id="@+id/quantidade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="95dp"
+            android:text="0"
+            android:textAppearance="?attr/textAppearanceListItem"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
-            android:id="@+id/img_inclui_delete"
+            android:id="@+id/img_inclui"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/img_delete"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_add_circle_24_verde" />
+
+        <ImageView
+            android:id="@+id/img_delete"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_add_circle_24_verde" />
+            app:srcCompat="@drawable/ic_remove_circle_24_red" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

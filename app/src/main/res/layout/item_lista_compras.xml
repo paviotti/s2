@@ -7,17 +7,19 @@
     android:layout_height="wrap_content"
     android:layout_margin="0.5dp"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:backgroundTint="#E0F2F1"
+        android:layout_margin="1dp"
+        android:backgroundTint="@color/secondaryLightColor"
         android:elevation="2dp"
         app:cardCornerRadius="4dp">
-
+<!--
         <ImageView
             android:id="@+id/image_delete"
             android:layout_width="40dp"
@@ -25,7 +27,7 @@
             android:layout_gravity="end"
             android:layout_margin="12dp"
             app:srcCompat="@drawable/ic_menu_gallery" />
-
+-->
         <TextView
             android:id="@+id/item_da_lista"
             android:layout_width="wrap_content"

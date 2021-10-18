@@ -40,7 +40,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/entrar" />
+        android:text="@string/entrar"
+        android:backgroundTint="@color/primaryColor"
+        android:textColor="@color/secondaryLightColor"/>
 
     <TextView
         android:id="@+id/txt_sign_up"

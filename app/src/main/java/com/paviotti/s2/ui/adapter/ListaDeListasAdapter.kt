@@ -58,10 +58,12 @@ class ListaDeListasAdapter(
             //click no cardView
             binding.itemDaLista.text = item.nome_da_lista //tópicos da tela - não mexa aqui
             if (item.btn_delete) {
-                binding.imageDelete.setImageResource(R.drawable.ic_delete_24)
+                //precisa descomentar no item_lista_compras
+             //   binding.imageDelete.setImageResource(R.drawable.ic_delete_24)
             }
             itemView.item_da_lista.setOnClickListener { itemClickList.onItemClick(item.nome_da_lista) }
-            itemView.image_delete.setOnClickListener { itemClickList.onImageclick(item.btn_delete) }
+            //precisa descomentar no item_lista_compras
+           // itemView.image_delete.setOnClickListener { itemClickList.onImageclick(item.btn_delete) }
         }
     }
 

@@ -31,7 +31,7 @@ class ListaCompletaAdapter(
 
         /** pega o click no icone adicionar/remover do botão*/
         val holder = ListaCompletaViewHolder(itemBinding, parent.context)
-        itemBinding.imgIncluiDelete.setOnClickListener {
+        itemBinding.imgInclui.setOnClickListener {
             val position =
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener //se não for, retorne
@@ -61,9 +61,9 @@ class ListaCompletaAdapter(
             Log.d("resultado", " item.include_item: ${item.include_item} ")
             Log.d("resultado","url:  ${item.photo_url}")
             if (item.include_item == false) {
-                binding.imgIncluiDelete.setImageResource(R.drawable.ic_add_circle_24_verde)
+                binding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_verde)
             } else {
-                binding.imgIncluiDelete.setImageResource(R.drawable.ic_remove_circle_24_red)
+                binding.imgInclui.setImageResource(R.drawable.ic_remove_circle_24_red)
             }
             //  itemView.img_inclui_delete.setOnClickListener {itemClickList.onImgClick(produto = Produto())}
         }

@@ -75,7 +75,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/registrar" />
+        android:text="@string/registrar"
+        android:backgroundTint="@color/primaryColor"
+        android:textColor="@color/secondaryLightColor"/>
 
 
     <ProgressBar

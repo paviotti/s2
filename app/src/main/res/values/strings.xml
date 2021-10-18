@@ -2,8 +2,8 @@
     <string name="app_name">S2</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Salin</string>
+    <string name="nav_header_subtitle">crpaviotti@hotmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
@@ -33,6 +33,7 @@
     <string name="descricao_da_foto">Descrição da foto</string>
     <string name="enviar_foto">Enviar Foto</string>
     <string name="listas_de_compras">Listas de compras</string>
-    <string name="nova_lista">Nova lista</string>
+    <string name="nova_lista">Criar nova lista</string>
+    <string name="foto_da_galeria">Foto da galeria</string>
 
 </resources>
