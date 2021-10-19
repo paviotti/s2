@@ -24,8 +24,9 @@ class ListaCompletaDataSource {
             val querySnapshot = referenceProduct.get().await()
             //o for é feito dentro do documento!
             for (itemList in querySnapshot.documents) {
+                //transforma itemList na classe Produto()
                 itemList.toObject((Produto::class.java))?.let { itens ->
-                    itens.id = itemList.id //grava o id do produto na lista e os dados
+                    itens.id = itemList.id  //grava o id do produto na lista e os dados
                     //==========================================================
                     /** collection(users).document(uid).collection(listas-de_compras)
                      * depois pesquisa no campo ("nome_da_lista", nameListFull) e devolve

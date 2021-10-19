@@ -5,12 +5,14 @@
       <map>
         <entry key="..\:/ADS-V2/UDEMY/Kotlin/S2/app/src/main/res/drawable-v24/incognito_24.xml" value="0.35625" />
         <entry key="..\:/ADS-V2/UDEMY/Kotlin/S2/app/src/main/res/drawable/ic_add_circle_24_verde.xml" value="0.35625" />
+        <entry key="..\:/ADS-V2/UDEMY/Kotlin/S2/app/src/main/res/drawable/ic_check_box_blank_24.xml" value="0.34933605720122574" />
         <entry key="..\:/ADS-V2/UDEMY/Kotlin/S2/app/src/main/res/drawable/ic_delete_24.xml" value="0.35625" />
         <entry key="..\:/ADS-V2/UDEMY/Kotlin/S2/app/src/main/res/drawable/ic_launcher_antigo.xml" value="0.2109375" />
         <entry key="..\:/ADS-V2/UDEMY/Kotlin/S2/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.35625" />
         <entry key="..\:/ADS-V2/UDEMY/Kotlin/S2/app/src/main/res/layout/activity_main.xml" value="0.3359375" />
         <entry key="..\:/ADS-V2/UDEMY/Kotlin/S2/app/src/main/res/layout/app_bar_main.xml" value="0.3359375" />
         <entry key="..\:/ADS-V2/UDEMY/Kotlin/S2/app/src/main/res/layout/card_lista_completa.xml" value="0.5" />
+        <entry key="..\:/ADS-V2/UDEMY/Kotlin/S2/app/src/main/res/layout/card_nomes_supermercado.xml" value="0.33" />
         <entry key="..\:/ADS-V2/UDEMY/Kotlin/S2/app/src/main/res/layout/content_main.xml" value="0.3359375" />
         <entry key="..\:/ADS-V2/UDEMY/Kotlin/S2/app/src/main/res/layout/fragment_camera.xml" value="0.3359375" />
         <entry key="..\:/ADS-V2/UDEMY/Kotlin/S2/app/src/main/res/layout/fragment_gallery.xml" value="0.3359375" />
@@ -47,7 +49,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.5" />
+        <option name="scale" value="0.33" />
       </ProjectState>
     </option>
   </component>

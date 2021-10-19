@@ -31,6 +31,7 @@ class ListaCompletaAdapter(
 
         /** pega o click no icone adicionar/remover do botão*/
         val holder = ListaCompletaViewHolder(itemBinding, parent.context)
+        /** pega o click imgInclui*/
         itemBinding.imgInclui.setOnClickListener {
             val position =
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
@@ -58,10 +59,15 @@ class ListaCompletaAdapter(
             binding.txtDescricao.text = item.descricao
             binding.txtUnidade.text = item.unidade
             binding.txtPreco1.text = item.photo_url
+            binding.txtPreco1.text = item.valor_s1.toString()
+            binding.txtPreco2.text = item.valor_s2.toString()
+            binding.txtPreco3.text = item.valor_s3.toString()
+
             Log.d("resultado", " item.include_item: ${item.include_item} ")
             Log.d("resultado","url:  ${item.photo_url}")
             if (item.include_item == false) {
                 binding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_verde)
+
             } else {
                 binding.imgInclui.setImageResource(R.drawable.ic_remove_circle_24_red)
             }

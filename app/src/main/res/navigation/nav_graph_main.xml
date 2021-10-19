@@ -6,7 +6,7 @@
     app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/nav_supermercados"
-        android:name="com.paviotti.s2.ui.supermercados.SupermercadoFragment"
+        android:name="com.paviotti.s2.ui.listas.supermercados.SupermercadoFragment"
         android:label="Supermercados"
         tools:layout="@layout/fragment_supermercado" />
     <fragment
