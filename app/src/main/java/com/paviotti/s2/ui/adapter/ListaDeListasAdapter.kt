@@ -1,6 +1,7 @@
 package com.paviotti.s2.ui.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,6 +57,7 @@ class ListaDeListasAdapter(
         override fun bind(item: ListaDeListas) {
             //https://www.youtube.com/watch?v=eaMj60Lb05Q
             //click no cardView
+          //  Log.d("lista","btn_delete: ${item.btn_delete} item.nome_da_lista: ${item.nome_da_lista}")
             binding.itemDaLista.text = item.nome_da_lista //tópicos da tela - não mexa aqui
             if (item.btn_delete) {
                 //precisa descomentar no item_lista_compras

@@ -59,7 +59,7 @@
         app:layout_constraintStart_toEndOf="@+id/cidade" />
 
     <ImageButton
-        android:id="@+id/img_chk_selected"
+        android:id="@+id/img_un_chk_selected"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginEnd="8dp"
@@ -68,5 +68,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_check_box_blank_24" />
+    <ImageButton
+        android:id="@+id/img_chk_selected"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/secondaryLightColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/ic_check_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

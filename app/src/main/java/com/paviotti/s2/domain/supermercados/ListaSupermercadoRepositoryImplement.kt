@@ -9,4 +9,8 @@ class ListaSupermercadoRepositoryImplement(private val dataSource: ListaSupermer
     override suspend fun getLatestListaSupermercado(): Result<List<Supermercado>> {
         return dataSource.getLatestListaSupermercado()
     }
+
+    override suspend fun updateItem(supermercado: Supermercado) {
+       return dataSource.updateItem(supermercado)
+    }
 }

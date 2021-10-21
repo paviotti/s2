@@ -5,4 +5,5 @@ import com.paviotti.s2.data.model.Supermercado
 
 interface ListaSupermercadoRepository {
     suspend fun getLatestListaSupermercado():Result<List<Supermercado>>
+    suspend fun updateItem(supermercado: Supermercado)
 }

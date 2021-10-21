@@ -58,6 +58,7 @@ class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickList
     }
 
     override fun onImgClick(supermercado: Supermercado) {
+        supermercado.selecionado = true
         Toast.makeText(context, "Clicou no supermercado", Toast.LENGTH_SHORT).show()
     }
 }

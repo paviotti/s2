@@ -5,7 +5,7 @@ data class Produto(
     val categoria: String = "",
     val codigo_barras: String = "",
     val descricao: String = "",
-    val quantidade: Double = 0.0,
+    var quantidade: Double = 0.0,
     val unidade: String = "",
     val valor_s1: Double = 0.0,
     val valor_s2: Double = 0.0,

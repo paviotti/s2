@@ -19,4 +19,8 @@ class ListaSupermercadoDataSource {
         }
         return Result.Success(listSupermarket)
     }
+
+    suspend fun updateItem(supermercado: Supermercado) {
+
+    }
 }

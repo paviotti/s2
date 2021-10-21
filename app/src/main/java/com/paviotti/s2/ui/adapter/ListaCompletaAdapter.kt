@@ -31,13 +31,35 @@ class ListaCompletaAdapter(
 
         /** pega o click no icone adicionar/remover do botão*/
         val holder = ListaCompletaViewHolder(itemBinding, parent.context)
+
         /** pega o click imgInclui*/
+        var qte=0
+        //===============================================
         itemBinding.imgInclui.setOnClickListener {
             val position =
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener //se não for, retorne
             itemClickList.onImgClick(listOfProdutcts[position]) //passa a lista de produtos ao clicar na imagem
+            if(listOfProdutcts[position].include_item == true){
+                listOfProdutcts[position].quantidade= (++qte).toDouble()
+            }
+            notifyDataSetChanged() //redesenha a reciclerView
         }
+        //===============================================
+        itemBinding.imgDelete.setOnClickListener {
+            val position =
+                holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
+                    ?: return@setOnClickListener //se não for, retorne
+            itemClickList.onImgClick(listOfProdutcts[position]) //passa a lista de produtos ao clicar na imagem
+            if(listOfProdutcts[position].include_item == true){
+                if(qte>0) {
+                    listOfProdutcts[position].quantidade = (--qte).toDouble()
+                }
+            }
+            notifyDataSetChanged() //redesenha a reciclerView
+        }
+
+        //===============================================
         return holder
         //  return ListaCompletaViewHolder(itemBinding, parent.context)
     }
@@ -62,14 +84,15 @@ class ListaCompletaAdapter(
             binding.txtPreco1.text = item.valor_s1.toString()
             binding.txtPreco2.text = item.valor_s2.toString()
             binding.txtPreco3.text = item.valor_s3.toString()
-
+            binding.quantidade.text = item.quantidade.toString()
             Log.d("resultado", " item.include_item: ${item.include_item} ")
-            Log.d("resultado","url:  ${item.photo_url}")
+            Log.d("resultado", "url:  ${item.descricao}")
             if (item.include_item == false) {
-                binding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_verde)
+               // binding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_verde)
 
             } else {
-                binding.imgInclui.setImageResource(R.drawable.ic_remove_circle_24_red)
+               // binding.imgInclui.setImageResource(R.drawable.ic_remove_circle_24_red)
+
             }
             //  itemView.img_inclui_delete.setOnClickListener {itemClickList.onImgClick(produto = Produto())}
         }

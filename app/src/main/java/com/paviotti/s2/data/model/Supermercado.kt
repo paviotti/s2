@@ -8,5 +8,5 @@ data class Supermercado(
     val endereco: String = "",
     val cidade: String = "",
     val uf: String = "",
-    val selecionado: Boolean = false
+    var selecionado: Boolean = false
 )
