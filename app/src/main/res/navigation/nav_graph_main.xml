@@ -39,7 +39,7 @@
     <fragment
         android:id="@+id/successScanFragment"
         android:name="com.paviotti.s2.ui.scanner.SuccessScanFragment"
-        android:label="fragment_success_scan"
+        android:label="Sucesso ao copiar"
         tools:layout="@layout/fragment_success_scan">
         <argument
             android:name="code"
@@ -79,7 +79,7 @@
     <fragment
         android:id="@+id/listaCompletaFragment"
         android:name="com.paviotti.s2.ui.listas.lista_completa.ListaCompletaFragment"
-        android:label="ListaCompletaFragment" >
+        android:label="Escolha os produtos">
         <argument
             android:name="nameList"
             app:argType="string" />

@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="13dp"
-            android:layout_marginEnd="150dp"
+            android:layout_marginEnd="180dp"
             android:lines="2"
             android:maxLength="32"
             android:textAppearance="?attr/textAppearanceListItem"
@@ -31,15 +31,45 @@
             tools:text="Bebida Balalaika Fruits Maracujá" />
 
         <TextView
+            android:id="@+id/txt_un"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:text="Un"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_unidade"
+            app:layout_constraintEnd_toStartOf="@+id/txt_unidade"
+            app:layout_constraintTop_toTopOf="@+id/txt_unidade" />
+
+        <TextView
             android:id="@+id/txt_unidade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="95dp"
+            android:layout_marginEnd="110dp"
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="5kg" />
+
+        <TextView
+            android:id="@+id/txt_qtde"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:text="Qtde"
+            app:layout_constraintEnd_toStartOf="@+id/quantidade"
+            app:layout_constraintTop_toTopOf="@+id/quantidade" />
+
+        <TextView
+            android:id="@+id/preco_s1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:text="$1="
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_preco1"
+            app:layout_constraintEnd_toStartOf="@+id/txt_preco1"
+            app:layout_constraintTop_toTopOf="@+id/txt_preco1" />
 
         <TextView
             android:id="@+id/txt_preco1"
@@ -55,10 +85,21 @@
 
 
         <TextView
+            android:id="@+id/preco_s2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:text="$2="
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_preco2"
+            app:layout_constraintEnd_toStartOf="@+id/txt_preco2"
+            app:layout_constraintTop_toTopOf="@+id/txt_preco2" />
+
+        <TextView
             android:id="@+id/txt_preco2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="204dp"
+            android:layout_marginEnd="209dp"
             android:layout_marginBottom="8dp"
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -66,10 +107,20 @@
             tools:text="1237,50" />
 
         <TextView
+            android:id="@+id/preco_s3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:text="$3="
+            app:layout_constraintBottom_toBottomOf="@+id/txt_preco3"
+            app:layout_constraintEnd_toStartOf="@+id/txt_preco3"
+            app:layout_constraintTop_toTopOf="@+id/txt_preco3" />
+
+        <TextView
             android:id="@+id/txt_preco3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="95dp"
+            android:layout_marginEnd="110dp"
             android:layout_marginBottom="8dp"
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -81,7 +132,7 @@
             android:id="@+id/quantidade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="95dp"
+            android:layout_marginEnd="110dp"
             android:text="0"
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -90,9 +141,9 @@
 
         <ImageView
             android:id="@+id/img_inclui"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="4dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/img_delete"
             app:layout_constraintTop_toTopOf="parent"
@@ -100,8 +151,8 @@
 
         <ImageView
             android:id="@+id/img_delete"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

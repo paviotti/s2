@@ -99,7 +99,7 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
 
     //recebe os valores dos itens do produto selecionado
     override fun onImgClick(produto: Produto) {
-      //  produto.include_item=true
+        produto.include_item=true
         /**criar um update para atualizar quantidade aqui*/
         creatNewItemList(produto) //pede para incluir um produto
         //  Log.d("produtox", "dadosDoProduto: $produto")

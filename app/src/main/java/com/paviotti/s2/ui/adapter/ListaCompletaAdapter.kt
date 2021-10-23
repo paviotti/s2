@@ -42,6 +42,7 @@ class ListaCompletaAdapter(
             itemClickList.onImgClick(listOfProdutcts[position]) //passa a lista de produtos ao clicar na imagem
             if(listOfProdutcts[position].include_item == true){
                 listOfProdutcts[position].quantidade= (++qte).toDouble()
+                itemBinding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_amarelo) //setImageResource(R.drawable.ic_menu_camera)
             }
             notifyDataSetChanged() //redesenha a reciclerView
         }
@@ -54,6 +55,9 @@ class ListaCompletaAdapter(
             if(listOfProdutcts[position].include_item == true){
                 if(qte>0) {
                     listOfProdutcts[position].quantidade = (--qte).toDouble()
+                }
+                if(qte==0){
+                    itemBinding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_verde)
                 }
             }
             notifyDataSetChanged() //redesenha a reciclerView
