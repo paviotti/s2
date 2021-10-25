@@ -9,12 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.paviotti.s2.R
 import com.paviotti.s2.core.Base.BaseViewHolder
 import com.paviotti.s2.data.model.Produto
-import com.paviotti.s2.data.remote.lista_completa.ListaCompletaDataSource
 import com.paviotti.s2.databinding.CardListaCompletaBinding
-import com.paviotti.s2.databinding.FragmentListaCompletaBinding
 import com.paviotti.s2.presentation.lista_completa.ClickListaCompleta
 import kotlinx.android.synthetic.main.card_lista_completa.view.*
-import kotlin.properties.Delegates
 
 /** O adaptador recebe uma lista de Produto (model)
  *  a classe implementa o RecyclerView e recebe um viewHolder
@@ -31,35 +28,36 @@ class ListaCompletaAdapter(
 
         /** pega o click no icone adicionar/remover do botão*/
         val holder = ListaCompletaViewHolder(itemBinding, parent.context)
+
         /** pega o click imgInclui*/
         var qte = 0.0
-
-        //===============================================
+        //============== incrementa =================================
         itemBinding.imgInclui.setOnClickListener {
             val position =
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener //se não for, retorne
+
             qte = listOfProdutcts[position].quantidade //recebe o valor do banco de dados
             if (listOfProdutcts[position].include_item == true) {
-                listOfProdutcts[position].quantidade = (++qte)
-                itemBinding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_amarelo) //setImageResource(R.drawable.ic_menu_camera)
+                listOfProdutcts[position].quantidade = (++qte).toDouble()
+                // itemBinding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_azul) //setImageResource(R.drawable.ic_menu_camera)
             }
             itemClickList.onImgClick(listOfProdutcts[position]) //passa a lista de produtos ao clicar na imagem
 
             notifyDataSetChanged() //redesenha a reciclerView
         }
-        //===============================================
+        //================= decrementa ==============================
         itemBinding.imgDelete.setOnClickListener {
             val position =
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener //se não for, retorne
+            qte = listOfProdutcts[position].quantidade //recebe o valor do banco de dados
             if (listOfProdutcts[position].include_item == true) {
                 if (qte > 0) {
                     listOfProdutcts[position].quantidade = (--qte).toDouble()
+                    Log.d("produto", "origem qte: $qte")
                 }
-                if (qte == 0.0) {
-                    itemBinding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_verde)
-                }
+
             }
             itemClickList.onImgClick(listOfProdutcts[position]) //passa a lista de produtos ao clicar na imagem
             notifyDataSetChanged() //redesenha a reciclerView
@@ -94,8 +92,14 @@ class ListaCompletaAdapter(
 //            Log.d("resultado", " item.include_item: ${item.include_item} ")
 //            Log.d("resultado", "url:  ${item.descricao}")
             // item.quantidade = qte.toDouble()
+            if (item.quantidade > 0) {
+                binding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_azul)
+            } else {
+                binding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_verde)
+            }
 
             //  itemView.img_inclui_delete.setOnClickListener {itemClickList.onImgClick(produto = Produto())}
+
         }
 
     }

@@ -105,7 +105,7 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
         updateItemLista(produto)
         creatNewItemList(produto) //pede para incluir um produto
         Log.d("produto", "dadosDoProduto: ${produto}")
-        // fetchLatestListComplete() //atualiza a lista de produtos - pausei
+        // fetchLatestListComplete() //atualiza a lista de produtos - pausei porque piora
     }
 
     private fun updateItemLista(produto: Produto) {
