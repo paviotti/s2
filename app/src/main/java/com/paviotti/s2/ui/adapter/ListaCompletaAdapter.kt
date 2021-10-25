@@ -31,19 +31,21 @@ class ListaCompletaAdapter(
 
         /** pega o click no icone adicionar/remover do botão*/
         val holder = ListaCompletaViewHolder(itemBinding, parent.context)
-
         /** pega o click imgInclui*/
-        var qte=0
+        var qte = 0.0
+
         //===============================================
         itemBinding.imgInclui.setOnClickListener {
             val position =
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener //se não for, retorne
-            itemClickList.onImgClick(listOfProdutcts[position]) //passa a lista de produtos ao clicar na imagem
-            if(listOfProdutcts[position].include_item == true){
-                listOfProdutcts[position].quantidade= (++qte).toDouble()
+            qte = listOfProdutcts[position].quantidade //recebe o valor do banco de dados
+            if (listOfProdutcts[position].include_item == true) {
+                listOfProdutcts[position].quantidade = (++qte)
                 itemBinding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_amarelo) //setImageResource(R.drawable.ic_menu_camera)
             }
+            itemClickList.onImgClick(listOfProdutcts[position]) //passa a lista de produtos ao clicar na imagem
+
             notifyDataSetChanged() //redesenha a reciclerView
         }
         //===============================================
@@ -51,18 +53,17 @@ class ListaCompletaAdapter(
             val position =
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener //se não for, retorne
-            itemClickList.onImgClick(listOfProdutcts[position]) //passa a lista de produtos ao clicar na imagem
-            if(listOfProdutcts[position].include_item == true){
-                if(qte>0) {
+            if (listOfProdutcts[position].include_item == true) {
+                if (qte > 0) {
                     listOfProdutcts[position].quantidade = (--qte).toDouble()
                 }
-                if(qte==0){
+                if (qte == 0.0) {
                     itemBinding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_verde)
                 }
             }
+            itemClickList.onImgClick(listOfProdutcts[position]) //passa a lista de produtos ao clicar na imagem
             notifyDataSetChanged() //redesenha a reciclerView
         }
-
         //===============================================
         return holder
         //  return ListaCompletaViewHolder(itemBinding, parent.context)
@@ -89,15 +90,11 @@ class ListaCompletaAdapter(
             binding.txtPreco2.text = item.valor_s2.toString()
             binding.txtPreco3.text = item.valor_s3.toString()
             binding.quantidade.text = item.quantidade.toString()
-            Log.d("resultado", " item.include_item: ${item.include_item} ")
-            Log.d("resultado", "url:  ${item.descricao}")
-            if (item.include_item == false) {
-               // binding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_verde)
+            Log.d("produto", "QTE: ${item.quantidade}")
+//            Log.d("resultado", " item.include_item: ${item.include_item} ")
+//            Log.d("resultado", "url:  ${item.descricao}")
+            // item.quantidade = qte.toDouble()
 
-            } else {
-               // binding.imgInclui.setImageResource(R.drawable.ic_remove_circle_24_red)
-
-            }
             //  itemView.img_inclui_delete.setOnClickListener {itemClickList.onImgClick(produto = Produto())}
         }
 

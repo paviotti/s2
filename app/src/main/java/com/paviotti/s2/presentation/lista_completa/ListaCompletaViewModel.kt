@@ -29,6 +29,19 @@ class ListaCompletaViewModel(private val repository: ListaCompletaRepository) : 
             emit(Result.Failure(e))
         }
     }
+
+    //atualiza a quantidade de produtos quando clicado no + ou -
+    fun updateItemLista(produto: Produto) = liveData(Dispatchers.IO) {
+        emit(Result.Loading())
+        try {
+            emit(Result.Success(repository.updateItemLista(produto)))
+        }catch (e:Exception){
+            emit(Result.Failure(e))
+        }
+    }
+
+
+
 }
 
 class ListaCompletaViewModelFactory(private val repository: ListaCompletaRepository) :

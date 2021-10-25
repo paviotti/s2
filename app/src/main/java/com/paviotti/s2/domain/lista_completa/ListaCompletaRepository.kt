@@ -10,6 +10,7 @@ interface ListaCompletaRepository {
     suspend fun getLatestListaCompleta():Result<List<Produto>> //lê produtos/ em Firebase
     suspend fun getLatestListaCriada():Result<List<Produto>> //lê users/listas_de_compras/
     suspend fun createItemLista(produto: Produto) //grava users/listas_de_compras/"nome da lista selecionada"
+    suspend fun updateItemLista(produto: Produto) //atualiza a lista selecionada
 }
 
 /**

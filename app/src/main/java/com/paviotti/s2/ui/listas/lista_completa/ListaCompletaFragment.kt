@@ -98,12 +98,34 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
     }
 
     //recebe os valores dos itens do produto selecionado
+    //var qte = 1
     override fun onImgClick(produto: Produto) {
-        produto.include_item=true
+        produto.include_item = true
         /**criar um update para atualizar quantidade aqui*/
+        updateItemLista(produto)
         creatNewItemList(produto) //pede para incluir um produto
-        //  Log.d("produtox", "dadosDoProduto: $produto")
-       // fetchLatestListComplete() //atualiza a lista de produtos - pausei
+        Log.d("produto", "dadosDoProduto: ${produto}")
+        // fetchLatestListComplete() //atualiza a lista de produtos - pausei
+    }
+
+    private fun updateItemLista(produto: Produto) {
+        val alertDialog =
+            AlertDialog.Builder(requireContext()).setTitle("Atualizando a quantidade...").create()
+        produto.let {
+            viewModel.updateItemLista(it).observe(viewLifecycleOwner, { result ->
+                when (result) {
+                    is Result.Loading -> {
+                        alertDialog.show()
+                    }
+                    is Result.Success->{
+                        alertDialog.dismiss()
+                    }
+                    is Result.Failure->{
+                        alertDialog.dismiss()
+                    }
+                }
+            })
+        }
     }
 
 }

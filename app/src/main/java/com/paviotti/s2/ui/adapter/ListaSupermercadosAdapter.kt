@@ -30,6 +30,9 @@ class ListaSupermercadosAdapter(
             val position = holder.bindingAdapterPosition.takeIf { it!= DiffUtil.DiffResult.NO_POSITION }
                 ?: return@setOnClickListener
             itemClickList.onImgClick(listSupermarket[position]) //passa a lista de supermercados ao clicar na imagem
+            if(listSupermarket[position].selecionado){
+                //fazer alteração para mudar estatus
+            }
             itemBinding.imgUnChkSelected.visibility = View.INVISIBLE
             itemBinding.imgChkSelected.visibility = View.VISIBLE
             listSupermarket[position].selecionado=true

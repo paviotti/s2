@@ -16,4 +16,8 @@ class ListaCompletaRepositoryImplement(private val datasource:ListaCompletaDataS
     override suspend fun createItemLista(newItem: Produto) {
         return datasource.createNewItem(newItem)
     }
+
+    override suspend fun updateItemLista(produto: Produto) {
+        return datasource.updateItemLista(produto)
+    }
 }
