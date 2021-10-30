@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,14 +6,15 @@
     android:orientation="vertical"
     tools:context="ui.listas.lista_completa.ListaCompletaFragment">
 
+
     <TextView
         android:id="@+id/titulo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/primaryColor"
         android:gravity="center_horizontal"
         android:padding="8dp"
         android:text="@string/listas_de_compras"
-        android:background="@color/primaryColor"
         android:textColor="@color/secondaryLightColor"
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,15 +24,129 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_lista_completa"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_margin="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/txt_s3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titulo"
-        tools:listitem="@layout/card_lista_completa"
-        />
+        tools:listitem="@layout/card_lista_completa" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/txt_s1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/primaryColor"
+        android:gravity="center"
+        android:maxLength="10"
+        android:padding="4dp"
+        android:text="Bresciane"
+        android:textColor="@color/secondaryLightColor"
+        app:layout_constraintBottom_toTopOf="@+id/txt_p1"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="84dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="183dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="283dp" />
+
+    <TextView
+        android:id="@+id/txt_s2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/primaryColor"
+        android:gravity="center"
+        android:maxLength="10"
+        android:padding="4dp"
+        android:text="Covabra"
+        android:textColor="@color/secondaryLightColor"
+        app:layout_constraintBottom_toTopOf="@+id/txt_p2"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline3" />
+
+    <TextView
+        android:id="@+id/txt_s3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/primaryColor"
+        android:gravity="center"
+        android:maxLength="10"
+        android:padding="4dp"
+        android:text="S. Centro"
+        android:textColor="@color/secondaryLightColor"
+        app:layout_constraintBottom_toTopOf="@+id/txt_p3"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline4" />
+
+    <TextView
+        android:id="@+id/txt_p1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@color/primaryColor"
+        android:gravity="center"
+        android:maxLength="10"
+        android:padding="4dp"
+        android:text="10"
+        android:textColor="@color/secondaryLightColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_p2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@color/primaryColor"
+        android:gravity="center"
+        android:maxLength="10"
+        android:padding="4dp"
+        android:text="10"
+        android:textColor="@color/secondaryLightColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline3" />
+
+    <TextView
+        android:id="@+id/txt_p3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@color/primaryColor"
+        android:gravity="center"
+        android:maxLength="10"
+        android:padding="4dp"
+        android:text="10"
+        android:textColor="@color/secondaryLightColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintStart_toStartOf="@+id/guideline4" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import com.google.firebase.firestore.FirebaseFirestore
 import com.paviotti.s2.R
 import com.paviotti.s2.core.Result
 import com.paviotti.s2.data.model.Produto
@@ -24,11 +25,16 @@ import com.paviotti.s2.presentation.lista_completa.ListaCompletaViewModelFactory
 import com.paviotti.s2.presentation.listadelistas.ListaDeListasViewModel
 import com.paviotti.s2.ui.adapter.ListaCompletaAdapter
 import com.paviotti.s2.ui.listas.listas_de_listas.ListaDeListasFragmentDirections
+import kotlinx.android.synthetic.main.card_lista_completa.*
+import java.text.DecimalFormat
 
 
 class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickListaCompleta {
     companion object {
         var nameListFull = ""
+        var total_s1 = 0.0
+        var total_s2 = 0.0
+        var total_s3 = 0.0
     }
 
     private lateinit var binding: FragmentListaCompletaBinding
@@ -47,8 +53,13 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
         binding.titulo.text =
             safeArgs.nameList //recebe o valor do primeiro fragment, é definido em nav_graph arguments
         nameListFull = safeArgs.nameList //pserá passado para dataSource
+        val dec = DecimalFormat("#,###.00")
+        Log.d("atual", "TotalFrg: ${total_s1} , total2: ${total_s2}, total3: ${total_s3}")
+        binding.txtP1.text = dec.format(total_s1).toString()
+        binding.txtP2.text = dec.format(total_s2).toString()
+        binding.txtP3.text = dec.format(total_s3).toString()
+        //    Log.d("preco","p1: $total_s1")
         fetchLatestListComplete()
-
     }
 
     fun fetchLatestListComplete() {
@@ -98,14 +109,36 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
     }
 
     //recebe os valores dos itens do produto selecionado
-    //var qte = 1
     override fun onImgClick(produto: Produto) {
-        produto.include_item = true
+        produto.include_item = true //atualiza o campo
         /**criar um update para atualizar quantidade aqui*/
+        updateSun(produto)
         updateItemLista(produto)
         creatNewItemList(produto) //pede para incluir um produto
-        Log.d("produto", "dadosDoProduto: ${produto}")
+        //  Log.d("produto", "dadosDoProduto: ${produto}")
         // fetchLatestListComplete() //atualiza a lista de produtos - pausei porque piora
+    }
+
+    //atualiza a lista de produtos para somar os valores
+    private fun updateSun(produto: Produto) {
+        val alertDialog =
+            AlertDialog.Builder(requireContext()).setTitle("Verificando quantidade ").create()
+        produto.let {
+            viewModel.updateSun(it).observe(viewLifecycleOwner, { result ->
+                when (result) {
+                    is Result.Loading -> {
+                        alertDialog.show()
+                    }
+                    is Result.Success -> {
+                        alertDialog.dismiss()
+                    }
+                    is Result.Failure -> {
+                        alertDialog.dismiss()
+                    }
+                }
+            })
+
+        }
     }
 
     private fun updateItemLista(produto: Produto) {
@@ -117,10 +150,10 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
                     is Result.Loading -> {
                         alertDialog.show()
                     }
-                    is Result.Success->{
+                    is Result.Success -> {
                         alertDialog.dismiss()
                     }
-                    is Result.Failure->{
+                    is Result.Failure -> {
                         alertDialog.dismiss()
                     }
                 }

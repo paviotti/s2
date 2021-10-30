@@ -4,6 +4,8 @@ import java.lang.Exception
 
 //https://www.udemy.com/course/curso-definitivo-para-aprender-a-programar-en-android/learn/lecture/24810830#questions/13960482
 //retorna uma lista do que quiser, na sequencia
+/** Esta classe retorna para a UI os três estados da conexão
+ *  da thread (Dispatchers.io) de segundo plano usado na viewModel*/
 sealed class Result<out T> {
     class Loading<out T> : Result<T>() //retorna um construtor vazio
     data class Success<out T>(val data: T) : Result<T>() //retorna uma lista ou qualquer outro dado

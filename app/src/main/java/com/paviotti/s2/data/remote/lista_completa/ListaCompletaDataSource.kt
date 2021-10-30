@@ -7,17 +7,21 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.paviotti.s2.data.model.Produto
 import kotlinx.coroutines.tasks.await
 import com.paviotti.s2.core.Result
+import com.paviotti.s2.data.model.SomaLista
 import com.paviotti.s2.ui.adapter.ListaCompletaAdapter
 import com.paviotti.s2.ui.listas.lista_completa.ListaCompletaFragment.Companion.nameListFull
+import com.paviotti.s2.ui.listas.lista_completa.ListaCompletaFragment.Companion.total_s1
+import com.paviotti.s2.ui.listas.lista_completa.ListaCompletaFragment.Companion.total_s2
+import com.paviotti.s2.ui.listas.lista_completa.ListaCompletaFragment.Companion.total_s3
+
 
 class ListaCompletaDataSource {
-    companion object {
-        var colorIcon: Boolean = false
-    }
+
 
     /** Esta classe lê a tabela produto completa (principal)*/
     suspend fun getLatestListaCompleta(): Result<List<Produto>> {
         val listProdutos = mutableListOf<Produto>()
+        val listProd = mutableListOf<Produto>()
         val user = FirebaseAuth.getInstance().currentUser
         user?.uid?.let { uid ->
             /** deve ler os dados em produtos*/
@@ -30,15 +34,7 @@ class ListaCompletaDataSource {
                 itemList.toObject((Produto::class.java))?.let { itens ->
                     itens.id = itemList.id  //grava o id do produto na lista e os dados
                     //==========================================================
-                    /** collection(users).document(uid).collection(listas-de_compras)
-                     * depois pesquisa no campo ("nome_da_lista", nameListFull) e devolve
-                     * or registros nas novas listas criadas
-                     *
-                     * esta parte da função teria o proposito de pegar o campo (include_item = true)
-                     * e devolver para a lista através de
-                     * itens.include_item =  doc.getBoolean("include_item") as (Boolean)
-                     * o Log.d mostra true, mas o valor não é repassado para lista ainda
-                     * */
+
                     val listReference =
                         FirebaseFirestore.getInstance().collection("users").document(uid)
                             .collection("listas_de_compras")
@@ -59,10 +55,19 @@ class ListaCompletaDataSource {
                                                 doc.getBoolean("include_item") as (Boolean)
                                             itens.quantidade =
                                                 doc.get("quantidade") as Double //repassa o estoque para o banco
+//
+//                                            total_s1 = doc.get("quantidade") as Double *doc.get("valor_s1") as Double
+//                                            total_s2 = doc.get("quantidade") as Double *doc.get("valor_s2") as Double
+//                                            total_s3 = doc.get("quantidade") as Double *doc.get("valor_s3") as Double
+//
+//                                            Log.d("atual", "Total1: $total_s1 , total2: $total_s2, total3: $total_s3")
+
                                             // Log.d("itens", "Qtde ${itens.quantidade}")
 //                                            Log.d("Itens", "doc.get: ${doc.get("photo_url")}")
 //                                            Log.d("Itens", "itens.photo_url: ${itens.photo_url}")
-
+                                            // criar outra lista
+                                           // val produtoFinal = doc.toObject(Produto::class.java)
+                                           // listProd.add(produtoFinal)
                                         }
 
                                     }
@@ -70,8 +75,8 @@ class ListaCompletaDataSource {
                                 }
                         }
                     }
-
                     listProdutos.add(itens) //cria uma lista de Produto
+                    updateSun(itens)
                     // listProdutos.last()
                 }
             }
@@ -130,9 +135,9 @@ class ListaCompletaDataSource {
         }
     }
 
-    //recebe um produto para atualizar e apaga se estoque for zero
+    /**recebe um produto para atualizar e apaga se estoque for zero*/
     suspend fun updateItemLista(produto: Produto) {
-        Log.d("updatez", "cheguei idy: ${produto.id} nome da lista: $nameListFull")
+        // Log.d("updatez", "cheguei idy: ${produto.id} nome da lista: $nameListFull")
         val user = FirebaseAuth.getInstance().currentUser //pega o id do usuario
         user?.uid?.let { uid ->
             val listReference = FirebaseFirestore.getInstance().collection("users").document(uid)
@@ -147,18 +152,19 @@ class ListaCompletaDataSource {
                             .addOnSuccessListener { docs ->
                                 for (doc in docs) {
                                     if (doc.get("id") == produto.id) {
-                                        if(produto.quantidade>0) {
+                                        if (produto.quantidade > 0) {
                                             val dados = hashMapOf(
                                                 "quantidade" to produto.quantidade,
                                                 "valor_s1" to produto.valor_s1,
                                                 "valor_s2" to produto.valor_s2,
                                                 "valor_s3" to produto.valor_s3
                                             )
+
                                             //atualiza a lista criada com preços de produtos
                                             listReference.document(idList).collection(idNameList)
                                                 .document(doc.id)
                                                 .update(dados as Map<String, Any>) //.update("quantidade", produto.quantidade )
-                                        }else{
+                                        } else {
                                             listReference.document(idList).collection(idNameList)
                                                 .document(doc.id).delete()
                                         }
@@ -172,11 +178,58 @@ class ListaCompletaDataSource {
                                     }
                                 }
                             }
+
                     }
+
                 }
 
 
         }
 
     }
+
+    fun updateSun(produto: Produto) {
+        total_s1 = 0.0
+        total_s2 = 0.0
+        total_s3 = 0.0
+        //   Log.d("atual", "TotaisAcima:$tot1")
+        val listProdutosAtualizado =
+            mutableListOf<Produto>() //cria uma nova lista com produtos atualizados
+        val user = FirebaseAuth.getInstance().currentUser //pega o id do usuario
+        user?.uid?.let { uid ->
+            val listReference = FirebaseFirestore.getInstance().collection("users").document(uid)
+                .collection("listas_de_compras")
+            listReference.whereEqualTo("nome_da_lista", nameListFull).get()
+                .addOnSuccessListener { documents ->
+                    for (document in documents) {
+                        val idList = document.id
+                        val idNameList = document.get("nome_da_lista").toString()
+                        //Log.d("updatez", "idListz: $idList,  idNameList: $idNameList")
+                        listReference.document(idList).collection(idNameList).get()
+                            .addOnSuccessListener { docs ->
+                                for (doc in docs) {
+                                    if (doc.get("id") == produto.id) {
+                                        /**O processo de soma está correto */
+                                        total_s1 += (doc.get("quantidade") as Double * doc.get("valor_s1") as Double)
+                                        total_s2 += (doc.get("quantidade") as Double * doc.get("valor_s2") as Double)
+                                        total_s3 += (doc.get("quantidade") as Double * doc.get("valor_s3") as Double)
+                                        //  Log.d("atual", "TotalAbaixo: $total_s1")
+                                        //  Log.d("atual", "Total1: $total_s1 , total2: $total_s2, total3: $total_s3")
+                                        //listProdutosAtualizado.add(produto)
+                                        Log.d("atual", "listatual: ${doc.data}")
+                                    }
+                                }
+//                                for (prod in listProdutosAtualizado) {
+//                                    var quantidade = prod.quantidade
+//                                }
+
+                            }
+                    }
+
+                }
+        }
+
+    }
+
+
 }

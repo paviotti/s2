@@ -1,6 +1,8 @@
 package com.paviotti.s2.ui.listas.supermercados
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -9,6 +11,7 @@ import androidx.lifecycle.Observer
 import com.paviotti.s2.R
 import com.paviotti.s2.core.Result
 import com.paviotti.s2.data.model.Supermercado
+import com.paviotti.s2.data.model.User
 import com.paviotti.s2.data.remote.supermercados.ListaSupermercadoDataSource
 import com.paviotti.s2.databinding.FragmentSupermercadoBinding
 import com.paviotti.s2.domain.supermercados.ListaSupermercadoRepositoryImplement
@@ -25,6 +28,11 @@ class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickList
                 ListaSupermercadoDataSource()
             )
         )
+    }
+
+    //recebe o id do supermecado selecioando
+    companion object {
+        var qteSelect = 0
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,8 +65,30 @@ class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickList
         })
     }
 
+    fun updateItem(supermercado: Supermercado) {
+        val alertDialog = AlertDialog.Builder(requireContext()).setTitle("Atualizando Supermercado").create()
+        viewModel.updateItem(supermercado).observe(viewLifecycleOwner,{ result->
+            when(result){
+                is Result.Loading->{
+                    alertDialog.show()
+                }
+                is Result.Success->{
+                    alertDialog.dismiss()
+                }
+                is Result.Failure->{
+                    alertDialog.dismiss()
+                }
+            }
+        })
+    }
+
     override fun onImgClick(supermercado: Supermercado) {
-        supermercado.selecionado = true
-        Toast.makeText(context, "Clicou no supermercado", Toast.LENGTH_SHORT).show()
+        if (qteSelect >= 3) {
+            Toast.makeText(context, "O máximo são 3 supermercados", Toast.LENGTH_SHORT).show()
+        }
+        updateItem(supermercado)
+
+        // supermercado.selecionado = true
+
     }
 }

@@ -40,6 +40,16 @@ class ListaCompletaViewModel(private val repository: ListaCompletaRepository) : 
         }
     }
 
+    fun updateSun(produto: Produto) = liveData(Dispatchers.IO){
+        emit(Result.Loading())
+        try {
+            emit(Result.Success(repository.updateSun(produto)))
+
+        }catch (e: java.lang.Exception){
+            emit(Result.Failure(e))
+        }
+    }
+
 
 
 }
