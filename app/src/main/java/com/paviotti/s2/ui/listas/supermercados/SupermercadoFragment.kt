@@ -13,6 +13,7 @@ import com.paviotti.s2.core.Result
 import com.paviotti.s2.data.model.Supermercado
 import com.paviotti.s2.data.model.User
 import com.paviotti.s2.data.remote.supermercados.ListaSupermercadoDataSource
+import com.paviotti.s2.data.remote.supermercados.ListaSupermercadoDataSource.Companion.qteSelect
 import com.paviotti.s2.databinding.FragmentSupermercadoBinding
 import com.paviotti.s2.domain.supermercados.ListaSupermercadoRepositoryImplement
 import com.paviotti.s2.presentation.supermercados.ClickListSupermercados
@@ -21,6 +22,8 @@ import com.paviotti.s2.presentation.supermercados.ListaSupermercadosViewModelFac
 import com.paviotti.s2.ui.adapter.ListaSupermercadosAdapter
 
 class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickListSupermercados {
+    var qteSelected=0
+
     private lateinit var binding: FragmentSupermercadoBinding
     private val viewModel by viewModels<ListaSupermercadosViewModel> {
         ListaSupermercadosViewModelFactory(
@@ -31,9 +34,9 @@ class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickList
     }
 
     //recebe o id do supermecado selecioando
-    companion object {
-        var qteSelect = 0
-    }
+//    companion object {
+//        var qteSelect = 0
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,29 +69,44 @@ class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickList
     }
 
     fun updateItem(supermercado: Supermercado) {
-        val alertDialog = AlertDialog.Builder(requireContext()).setTitle("Atualizando Supermercado").create()
-        viewModel.updateItem(supermercado).observe(viewLifecycleOwner,{ result->
-            when(result){
-                is Result.Loading->{
+        val alertDialog =
+            AlertDialog.Builder(requireContext()).setTitle("Atualizando Supermercado").create()
+        viewModel.updateItem(supermercado).observe(viewLifecycleOwner, { result ->
+            when (result) {
+                is Result.Loading -> {
                     alertDialog.show()
                 }
-                is Result.Success->{
+                is Result.Success -> {
                     alertDialog.dismiss()
                 }
-                is Result.Failure->{
+                is Result.Failure -> {
                     alertDialog.dismiss()
                 }
             }
         })
     }
 
-    override fun onImgClick(supermercado: Supermercado) {
-        if (qteSelect >= 3) {
+    //acrescenta
+    override fun onUnChkImgClick(supermercado: Supermercado) {
+        if (qteSelected <= 3 ) {
+            ListaSupermercadosAdapter.gravar = true
+            updateItem(supermercado)
+            fetchLatestList()
+            Log.d("aqui", "aqui: ${qteSelect}")
+        } else {
             Toast.makeText(context, "O máximo são 3 supermercados", Toast.LENGTH_SHORT).show()
         }
-        updateItem(supermercado)
+    }
 
-        // supermercado.selecionado = true
-
+    //diminui
+    override fun onChkImgClick(supermercado: Supermercado) {
+            if (qteSelected >=0) {
+            ListaSupermercadosAdapter.gravar = false
+            updateItem(supermercado)
+            fetchLatestList()
+            Log.d("aqui", "aqui: ${qteSelect}")
+        } else {
+            Toast.makeText(context, "O máximo são 3 supermercados", Toast.LENGTH_SHORT).show()
+        }
     }
 }

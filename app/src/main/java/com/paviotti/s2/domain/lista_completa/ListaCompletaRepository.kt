@@ -12,7 +12,7 @@ interface ListaCompletaRepository {
     suspend fun getLatestListaCriada():Result<List<Produto>> //lê users/listas_de_compras/
     suspend fun createItemLista(produto: Produto) //grava users/listas_de_compras/"nome da lista selecionada"
     suspend fun updateItemLista(produto: Produto) //atualiza a lista selecionada
-    fun updateSun(produto: Produto) //atulaiza soma
+    suspend fun updateSun(produto: Produto) //atulaiza soma
 }
 
 /**

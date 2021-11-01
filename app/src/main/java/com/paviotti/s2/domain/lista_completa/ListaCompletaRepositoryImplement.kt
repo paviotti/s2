@@ -21,7 +21,7 @@ class ListaCompletaRepositoryImplement(private val datasource:ListaCompletaDataS
         return datasource.updateItemLista(produto)
     }
 
-    override fun updateSun(produto: Produto) {
+    override suspend fun updateSun(produto: Produto) {
         return datasource.updateSun(produto)
     }
 }

@@ -15,6 +15,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.paviotti.s2.R
 import com.paviotti.s2.core.Result
 import com.paviotti.s2.data.model.Produto
+import com.paviotti.s2.data.model.VarStatic.Companion.nameListFull
+import com.paviotti.s2.data.model.VarStatic.Companion.total_s1
+import com.paviotti.s2.data.model.VarStatic.Companion.total_s2
+import com.paviotti.s2.data.model.VarStatic.Companion.total_s3
 import com.paviotti.s2.data.remote.lista_completa.ListaCompletaDataSource
 import com.paviotti.s2.databinding.FragmentListaCompletaBinding
 import com.paviotti.s2.domain.lista_completa.ListaCompletaRepository
@@ -30,12 +34,6 @@ import java.text.DecimalFormat
 
 
 class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickListaCompleta {
-    companion object {
-        var nameListFull = ""
-        var total_s1 = 0.0
-        var total_s2 = 0.0
-        var total_s3 = 0.0
-    }
 
     private lateinit var binding: FragmentListaCompletaBinding
     private val safeArgs: ListaCompletaFragmentArgs by navArgs<ListaCompletaFragmentArgs>() // é a instancia do segundo fragment + Args
@@ -47,19 +45,22 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
         )
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fetchLatestListComplete() //posição ideal
         binding = FragmentListaCompletaBinding.bind(view)
         binding.titulo.text =
             safeArgs.nameList //recebe o valor do primeiro fragment, é definido em nav_graph arguments
         nameListFull = safeArgs.nameList //pserá passado para dataSource
         val dec = DecimalFormat("#,###.00")
-        Log.d("atual", "TotalFrg: ${total_s1} , total2: ${total_s2}, total3: ${total_s3}")
+        Log.d("fragmentx1", "TotalFrg: ${total_s1} , total2: ${total_s2}, total3: ${total_s3}")
         binding.txtP1.text = dec.format(total_s1).toString()
         binding.txtP2.text = dec.format(total_s2).toString()
         binding.txtP3.text = dec.format(total_s3).toString()
         //    Log.d("preco","p1: $total_s1")
-        fetchLatestListComplete()
+
+        //  Log.d("atual2", "total_s1VC: $total_s1")
     }
 
     fun fetchLatestListComplete() {
@@ -112,11 +113,12 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
     override fun onImgClick(produto: Produto) {
         produto.include_item = true //atualiza o campo
         /**criar um update para atualizar quantidade aqui*/
-        updateSun(produto)
-        updateItemLista(produto)
         creatNewItemList(produto) //pede para incluir um produto
+        // updateSun(produto)
+        updateItemLista(produto)
+
         //  Log.d("produto", "dadosDoProduto: ${produto}")
-        // fetchLatestListComplete() //atualiza a lista de produtos - pausei porque piora
+        //fetchLatestListComplete() //atualiza a lista de produtos - pausei porque piora
     }
 
     //atualiza a lista de produtos para somar os valores
