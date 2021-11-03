@@ -33,11 +33,6 @@ class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickList
         )
     }
 
-    //recebe o id do supermecado selecioando
-//    companion object {
-//        var qteSelect = 0
-//    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSupermercadoBinding.bind(view)

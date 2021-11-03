@@ -40,7 +40,7 @@ class ListaCompletaAdapter(
             qte = listOfProdutcts[position].quantidade //recebe o valor do banco de dados
             if (listOfProdutcts[position].include_item == true) {
                 listOfProdutcts[position].quantidade = (++qte).toDouble()
-                // itemBinding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_azul) //setImageResource(R.drawable.ic_menu_camera)
+                //itemBinding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_azul) //setImageResource(R.drawable.ic_menu_camera)
             }
             itemClickList.onImgClick(listOfProdutcts[position]) //passa a lista de produtos ao clicar na imagem
 

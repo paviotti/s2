@@ -36,7 +36,7 @@ class ListaSupermercadosAdapter(
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener
             if (qteSelect < 3) {
-               // SupermercadoFragment.qteSelect++ //incrementa
+                // SupermercadoFragment.qteSelect++ //incrementa
                 //   itemBinding.imgUnChkSelected.visibility = View.INVISIBLE
                 //   itemBinding.imgChkSelected.visibility = View.VISIBLE
                 // listSupermarket[position].selecionado = true
@@ -51,7 +51,7 @@ class ListaSupermercadosAdapter(
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener
             if (qteSelect > 0) {
-              //  SupermercadoFragment.qteSelect-- //decrementa
+                //  SupermercadoFragment.qteSelect-- //decrementa
                 // itemBinding.imgChkSelected.visibility = View.INVISIBLE
                 //  itemBinding.imgUnChkSelected.visibility = View.VISIBLE
                 //listSupermarket[position].selecionado = false
@@ -84,7 +84,6 @@ class ListaSupermercadosAdapter(
                 binding.imgChkSelected.visibility = View.VISIBLE
                 binding.imgUnChkSelected.visibility = View.INVISIBLE
             }
-
             //Log.d("qtdeIc", "selecionado:  ${item.selecionado} Gravar: $gravar ${item.nome_fantasia}")
         }
 

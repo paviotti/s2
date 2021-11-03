@@ -45,7 +45,6 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
         )
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fetchLatestListComplete() //posição ideal
@@ -53,14 +52,6 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
         binding.titulo.text =
             safeArgs.nameList //recebe o valor do primeiro fragment, é definido em nav_graph arguments
         nameListFull = safeArgs.nameList //pserá passado para dataSource
-        val dec = DecimalFormat("#,###.00")
-        Log.d("fragmentx1", "TotalFrg: ${total_s1} , total2: ${total_s2}, total3: ${total_s3}")
-        binding.txtP1.text = dec.format(total_s1).toString()
-        binding.txtP2.text = dec.format(total_s2).toString()
-        binding.txtP3.text = dec.format(total_s3).toString()
-        //    Log.d("preco","p1: $total_s1")
-
-        //  Log.d("atual2", "total_s1VC: $total_s1")
     }
 
     fun fetchLatestListComplete() {
@@ -71,6 +62,14 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
                 }
                 is Result.Success -> {
                     //binding.titulo.text = viewModel.nomeLista
+                    val dec = DecimalFormat("#,###.00")
+                    Log.d(
+                        "fragmentx1",
+                        "TotalFrg: ${total_s1} , total2: ${total_s2}, total3: ${total_s3}"
+                    )
+                    binding.txtP1.text = dec.format(total_s1).toString()
+                    binding.txtP2.text = dec.format(total_s2).toString()
+                    binding.txtP3.text = dec.format(total_s3).toString()
                     binding.rvListaCompleta.adapter = ListaCompletaAdapter(
                         result.data, this@ListaCompletaFragment
                     )
@@ -106,7 +105,6 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
                 }
             })
         }
-        //  Log.d("ListaDeProduto", "SafeArgs: ${safeArgs.nameList}")
     }
 
     //recebe os valores dos itens do produto selecionado
@@ -114,11 +112,8 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
         produto.include_item = true //atualiza o campo
         /**criar um update para atualizar quantidade aqui*/
         creatNewItemList(produto) //pede para incluir um produto
-        // updateSun(produto)
-        updateItemLista(produto)
-
-        //  Log.d("produto", "dadosDoProduto: ${produto}")
-        //fetchLatestListComplete() //atualiza a lista de produtos - pausei porque piora
+        updateItemLista(produto) //altera ou exclui
+        fetchLatestListComplete() //atualiza a lista de produtos - pausei porque piora
     }
 
     //atualiza a lista de produtos para somar os valores
@@ -162,5 +157,4 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
             })
         }
     }
-
 }
