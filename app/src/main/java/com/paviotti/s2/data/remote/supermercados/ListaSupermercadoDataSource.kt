@@ -17,9 +17,9 @@ import kotlinx.coroutines.tasks.await
  * */
 class ListaSupermercadoDataSource {
 
-    companion object {
-        var qteSelect = 0
-    }
+//    companion object {
+//        var qteSelect = 0
+//    }
 
     suspend fun getLatestListaSupermercado(): Result<List<Supermercado>> {
         var conta = 0
@@ -92,7 +92,7 @@ class ListaSupermercadoDataSource {
     }
 
 
-    /** insere ou exclui supermercado*/
+    /** insere ou exclui a seleção do supermercado da lista */
     suspend fun updateItem(supermercado: Supermercado) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         userId?.let { uid ->

@@ -10,4 +10,7 @@ interface AuthRepository {
 
     //passa uma foto e o nome do usuário e será implementado
     suspend fun updateProfile(imageBitmap: Bitmap, username: String )
+
+    //le a foto do perfil no Firestore e devolve para SetupProfileFragment
+    suspend fun findImage():String
 }

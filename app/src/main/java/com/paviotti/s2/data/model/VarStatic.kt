@@ -6,5 +6,8 @@ class VarStatic {
         var total_s1 = 0.0
         var total_s2 = 0.0
         var total_s3 = 0.0
+
+        //supermercado
+        var qteSelect = 0
     }
 }

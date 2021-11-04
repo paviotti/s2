@@ -12,8 +12,8 @@ import com.paviotti.s2.R
 import com.paviotti.s2.core.Result
 import com.paviotti.s2.data.model.Supermercado
 import com.paviotti.s2.data.model.User
+import com.paviotti.s2.data.model.VarStatic.Companion.qteSelect
 import com.paviotti.s2.data.remote.supermercados.ListaSupermercadoDataSource
-import com.paviotti.s2.data.remote.supermercados.ListaSupermercadoDataSource.Companion.qteSelect
 import com.paviotti.s2.databinding.FragmentSupermercadoBinding
 import com.paviotti.s2.domain.supermercados.ListaSupermercadoRepositoryImplement
 import com.paviotti.s2.presentation.supermercados.ClickListSupermercados

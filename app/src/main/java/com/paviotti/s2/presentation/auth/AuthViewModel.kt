@@ -2,6 +2,7 @@ package com.paviotti.s2.presentation.auth
 
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
@@ -21,11 +22,19 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
     }
 
     //inscrever-se, recebe os dados de Register.Fragment.kt
-    fun signUp(email: String, password: String, username:String)= liveData(Dispatchers.IO){
+    fun signUp(email: String, password: String, username: String) = liveData(Dispatchers.IO) {
         emit(Result.Loading())
         try {
-            emit(Result.Success(repository.signUn(email, password, username))) //passa os dados para AuthRepository.kt
-        }catch (e:Exception){
+            emit(
+                Result.Success(
+                    repository.signUn(
+                        email,
+                        password,
+                        username
+                    )
+                )
+            ) //passa os dados para AuthRepository.kt
+        } catch (e: Exception) {
             emit(Result.Failure(e))
         }
     }
@@ -33,11 +42,21 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
     /**
      * *atualiza os dados inseridos no Profile, passando a foto e o nome do usuário
      * os dados vem do Fragment_setup_profile*/
-    fun updateUserProfile(imageBitmap: Bitmap, username: String)=liveData(Dispatchers.IO){
-    emit(Result.Loading())
+    fun updateUserProfile(imageBitmap: Bitmap, username: String) = liveData(Dispatchers.IO) {
+        emit(Result.Loading())
         try {
-            emit(Result.Success(repository.updateProfile (imageBitmap, username)))
-        }catch (e: Exception){
+            emit(Result.Success(repository.updateProfile(imageBitmap, username)))
+        } catch (e: Exception) {
+            emit(Result.Failure(e))
+        }
+    }
+
+    fun findImage() = liveData(Dispatchers.IO) {
+        emit(Result.Loading())
+        try {
+
+            emit(Result.Success(repository.findImage()))
+        } catch (e: Exception) {
             emit(Result.Failure(e))
         }
     }

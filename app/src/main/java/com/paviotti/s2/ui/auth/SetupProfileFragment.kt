@@ -10,12 +10,16 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.Editable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -28,6 +32,7 @@ import com.paviotti.s2.presentation.auth.AuthViewModel
 import com.paviotti.s2.presentation.auth.AuthViewModelFactory
 import java.io.File
 import com.paviotti.s2.core.Result
+import kotlinx.android.synthetic.main.nav_header_main.*
 
 class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile) {
     private lateinit var binding: FragmentSetupProfileBinding
@@ -48,6 +53,7 @@ class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSetupProfileBinding.bind(view)
+        findImage()
 
         //captura a foto da galeria ao clicar no botão
         binding.btnSearchPhoto.setOnClickListener {
@@ -66,7 +72,7 @@ class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile) {
         }
 
 
-        //cria o perfil do usuario, grava no Firebase
+        //botão cria o perfil do usuario, grava no Firebase
         binding.btnCreateProfile.setOnClickListener {
             if (binding.txtUsername.text.isNullOrEmpty()) {
                 binding.txtUsername.error = "Digite o nome"
@@ -99,6 +105,8 @@ class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile) {
             }
 
         }
+
+        //botão de logOf
         binding.btnLogof.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             findNavController().navigate(R.id.action_nav_perfil_to_loginFragment)
@@ -106,21 +114,21 @@ class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile) {
     }
 
     //click na imagem para tirar a foto - é usado até a versão 9
-    fun getPhoto9() {
-        try {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            val authorize = "com.paviotti.s2" //pega no fileprovider do manifest
-            val directory =
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) //local armazenado
-            val nameImage = directory.path + "/Salin" + System.currentTimeMillis() + ".jpg"
-            val file = File(nameImage)
-            uriImagem = FileProvider.getUriForFile(requireContext(), authorize, file)
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, uriImagem)
-            startActivityForResult(intent, ACTION_IMAGE_CAPTURE)
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(context, "Deu errado", Toast.LENGTH_SHORT).show()
-        }
-    }
+//    fun getPhoto9() {
+//        try {
+//            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//            val authorize = "com.paviotti.s2" //pega no fileprovider do manifest
+//            val directory =
+//                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) //local armazenado
+//            val nameImage = directory.path + "/Salin" + System.currentTimeMillis() + ".jpg"
+//            val file = File(nameImage)
+//            uriImagem = FileProvider.getUriForFile(requireContext(), authorize, file)
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, uriImagem)
+//            startActivityForResult(intent, ACTION_IMAGE_CAPTURE)
+//        } catch (e: ActivityNotFoundException) {
+//            Toast.makeText(context, "Deu errado", Toast.LENGTH_SHORT).show()
+//        }
+//    }
 
     //salva a foto capturada da galeria
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -131,10 +139,32 @@ class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile) {
             //exibe a imagem na tela em Uri, depois convert para bitmap para subir para o Storage
             var uri = data?.data!!
             uri.let {
-                binding.profileImage.setImageURI(uri)
-                bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, uri)
+                binding.profileImage.setImageURI(uri) //posta a imagem no xml
+                bitmap = MediaStore.Images.Media.getBitmap(
+                    context?.contentResolver,
+                    uri
+                ) //convert para bitmap
                 //https://stackoverflow.com/questions/3750903/how-can-getcontentresolver-be-called-in-android
             }
         }
     }
+
+    //procura a imagem do perfil e retorna o result
+    fun findImage() {
+        return viewModel.findImage().observe(viewLifecycleOwner, { result ->
+            when (result) {
+                is Result.Loading -> {
+                }
+                is Result.Success -> {
+                    //  Log.d("resultx", "${result.data}")
+                    context?.let {
+                        Glide.with(it).load(result.data).centerCrop().into(binding.profileImage)
+                    }
+                }
+                is Result.Failure -> {
+                }
+            }
+        })
+    }
 }
+

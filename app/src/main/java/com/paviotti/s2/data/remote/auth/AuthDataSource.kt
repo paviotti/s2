@@ -3,6 +3,7 @@ package com.paviotti.s2.data.remote.auth
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.ContactsContract
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.userProfileChangeRequest
@@ -59,7 +60,7 @@ class AuthDataSource {
         /** em FirebaseStorage, criar uma pasta user.uid/profile_picture */
         val imagRef = FirebaseStorage.getInstance().reference.child("${user?.uid}/profile_picture")
         val baos = ByteArrayOutputStream()
-        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos)
         /** sobe a foto para o Firebase e pega a URL da imagRef*/
         val downloadUrl =
             imagRef.putBytes(baos.toByteArray()).await().storage.downloadUrl.await().toString()
@@ -70,5 +71,22 @@ class AuthDataSource {
             photoUri = Uri.parse(downloadUrl)
         }
         user?.updateProfile(profileUpdates)?.await() //atualiza os dados
+
+        //salva o link da imagem no Firestore
+        user?.let {
+            FirebaseFirestore.getInstance().collection("users").document(it?.uid)
+                .update("photo_url", downloadUrl, "username", username, "user_id", it.uid)
+        }
+    }
+
+    suspend fun findImage(): String {
+        var img = ""
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val urlImage =
+                FirebaseFirestore.getInstance().collection("users").document(it?.uid).get().await()
+            img = urlImage.get("photo_url") as String
+        }
+        return img
     }
 }

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.paviotti.s2.core.Base.BaseViewHolder
 import com.paviotti.s2.data.model.Supermercado
-import com.paviotti.s2.data.remote.supermercados.ListaSupermercadoDataSource.Companion.qteSelect
+import com.paviotti.s2.data.model.VarStatic.Companion.qteSelect
 import com.paviotti.s2.databinding.CardNomesSupermercadoBinding
 import com.paviotti.s2.presentation.supermercados.ClickListSupermercados
 import com.paviotti.s2.ui.listas.supermercados.SupermercadoFragment

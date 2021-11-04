@@ -1,6 +1,7 @@
 package com.paviotti.s2.domain.auth
 
 import android.graphics.Bitmap
+import android.util.Log
 import com.google.firebase.auth.FirebaseUser
 import com.paviotti.s2.data.remote.auth.AuthDataSource
 
@@ -15,5 +16,9 @@ class AuthRepositoryImplement(private val dataSource: AuthDataSource) : AuthRepo
     //este método chama dataSource.updateUserProfile() em AuthDataSource.kt passando a foto e o nome
     override suspend fun updateProfile(imageBitmap: Bitmap, username: String) =
         dataSource.updateUserProfile(imageBitmap, username)
+
+    override suspend fun findImage(): String {
+        return dataSource.findImage()
+    }
 
 }
