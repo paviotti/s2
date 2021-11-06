@@ -6,6 +6,18 @@
     android:orientation="vertical"
     tools:context="ui.listas.lista_completa.ListaCompletaFragment">
 
+    <RelativeLayout
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="#2962FF" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/titulo"
@@ -20,6 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_lista_completa"
@@ -111,7 +124,7 @@
         android:gravity="center"
         android:maxLength="10"
         android:padding="4dp"
-        android:text="10"
+        android:text="0.00"
         android:textColor="@color/secondaryLightColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
@@ -126,7 +139,7 @@
         android:gravity="center"
         android:maxLength="10"
         android:padding="4dp"
-        android:text="10"
+        android:text="0.00"
         android:textColor="@color/secondaryLightColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
@@ -142,7 +155,7 @@
         android:gravity="center"
         android:maxLength="10"
         android:padding="4dp"
-        android:text="10"
+        android:text="0.00"
         android:textColor="@color/secondaryLightColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"

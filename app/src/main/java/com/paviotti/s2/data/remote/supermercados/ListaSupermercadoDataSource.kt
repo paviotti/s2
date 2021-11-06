@@ -6,6 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.paviotti.s2.core.Result
 import com.paviotti.s2.data.model.Supermercado
 import com.paviotti.s2.data.model.User
+import com.paviotti.s2.data.model.VarStatic.Companion.qteSelect
 import com.paviotti.s2.ui.adapter.ListaSupermercadosAdapter.Companion.gravar
 import kotlinx.coroutines.tasks.await
 
@@ -60,6 +61,7 @@ class ListaSupermercadoDataSource {
             }
         }
         contador(conta) //faz a contagem de supermercados selecionados
+
         Log.d("qtde", "listOriginal: ${contador(conta)} ")
         return Result.Success(listSupermarket)
     }
@@ -83,8 +85,10 @@ class ListaSupermercadoDataSource {
             if (itens.id == userId) {
                 // qteSelect  //(itens.get("total") as Int)
                 val a = itens.get("total").toString()
+                qteSelect=0
+                qteSelect = a.toInt()
                 retornaSoma = a.toInt()
-                Log.d("contador", "interno: ${(itens.get("total"))}")
+               // Log.d("contador", "interno: ${(itens.get("total"))} qteSelect: $qteSelect")
             }
         }
         // Log.d("contador", "${qteSelect}")
@@ -109,7 +113,7 @@ class ListaSupermercadoDataSource {
                     .collection("users").whereEqualTo("uid", uid).get().await()
                 if (itemId.get("id_supermercado") == supermercado.id_supermercado) {
                     //insert
-                    Log.d("qtdeIc", "chegaSelecionado: ${gravar}")
+                   // Log.d("qtdeIc", "chegaSelecionado: ${gravar}")
                     //se recebe falso INSERE O REGISTRO
                     if (gravar == true) {
                         // if (supermercado.selecionado == true) {

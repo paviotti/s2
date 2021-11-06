@@ -59,14 +59,16 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
         viewModel.fetchLatestListComplete().observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
                 }
                 is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
                     //binding.titulo.text = viewModel.nomeLista
                     val dec = DecimalFormat("#,###.00")
-                    Log.d(
-                        "fragmentx1",
-                        "TotalFrg: ${total_s1} , total2: ${total_s2}, total3: ${total_s3}"
-                    )
+//                    Log.d(
+//                        "fragmentx1",
+//                        "TotalFrg: ${total_s1} , total2: ${total_s2}, total3: ${total_s3}"
+//                    )
                     binding.txtP1.text = dec.format(total_s1).toString()
                     binding.txtP2.text = dec.format(total_s2).toString()
                     binding.txtP3.text = dec.format(total_s3).toString()
@@ -75,6 +77,7 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
                     )
                 }
                 is Result.Failure -> {
+                    binding.progressBar.visibility = View.GONE
                     Toast.makeText(
                         requireContext(),
                         "Ocorreu um erro: ${result.exception}",
@@ -87,19 +90,20 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
 
     private fun creatNewItemList(produto: Produto) {
         val alertDialog =
-            AlertDialog.Builder(requireContext()).setTitle("Uploding photo...").create()
+            AlertDialog.Builder(requireContext()).setTitle("Aguarde por favor...").create()
         produto.let {
             viewModel.createNewItem(it).observe(viewLifecycleOwner, { result ->
                 when (result) {
                     is Result.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
                         alertDialog.show()
                     }
                     is Result.Success -> {
-
+                        binding.progressBar.visibility = View.GONE
                         alertDialog.dismiss()
                     }
                     is Result.Failure -> {
-
+                        binding.progressBar.visibility = View.GONE
                         alertDialog.dismiss()
                     }
                 }
@@ -124,12 +128,15 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
             viewModel.updateSun(it).observe(viewLifecycleOwner, { result ->
                 when (result) {
                     is Result.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
                         alertDialog.show()
                     }
                     is Result.Success -> {
+                        binding.progressBar.visibility = View.GONE
                         alertDialog.dismiss()
                     }
                     is Result.Failure -> {
+                        binding.progressBar.visibility = View.GONE
                         alertDialog.dismiss()
                     }
                 }
@@ -145,12 +152,15 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
             viewModel.updateItemLista(it).observe(viewLifecycleOwner, { result ->
                 when (result) {
                     is Result.Loading -> {
+                        binding.progressBar.visibility = View.GONE
                         alertDialog.show()
                     }
                     is Result.Success -> {
+                        binding.progressBar.visibility = View.GONE
                         alertDialog.dismiss()
                     }
                     is Result.Failure -> {
+                        binding.progressBar.visibility = View.GONE
                         alertDialog.dismiss()
                     }
                 }

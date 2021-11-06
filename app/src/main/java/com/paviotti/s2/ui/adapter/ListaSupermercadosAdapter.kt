@@ -30,17 +30,17 @@ class ListaSupermercadosAdapter(
         val holder = ListaSupermercadosViewHolder(itemBinding, parent.context)
         /** pega o click imgChkSelected do card xml*/
         //incrementa
-        qteSelect = 0
+  //      qteSelect = 0
         itemBinding.imgUnChkSelected.setOnClickListener {
             val position =
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener
-            if (qteSelect < 3) {
+      //      if (qteSelect < 3) {
                 // SupermercadoFragment.qteSelect++ //incrementa
                 //   itemBinding.imgUnChkSelected.visibility = View.INVISIBLE
                 //   itemBinding.imgChkSelected.visibility = View.VISIBLE
                 // listSupermarket[position].selecionado = true
-            }
+   //         }
             itemClickList.onUnChkImgClick(listSupermarket[position]) //passa a lista de supermercados ao clicar na imagem
             notifyDataSetChanged() //redesenha a reciclerView = https://www.youtube.com/watch?v=0SdXoQ1g7RQ
         }
@@ -50,12 +50,12 @@ class ListaSupermercadosAdapter(
             val position =
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener
-            if (qteSelect > 0) {
+     //       if (qteSelect > 0) {
                 //  SupermercadoFragment.qteSelect-- //decrementa
                 // itemBinding.imgChkSelected.visibility = View.INVISIBLE
                 //  itemBinding.imgUnChkSelected.visibility = View.VISIBLE
                 //listSupermarket[position].selecionado = false
-            }
+    //        }
             itemClickList.onChkImgClick(listSupermarket[position]) //passa a lista de supermercados ao clicar na imagem
             notifyDataSetChanged() //redesenha a reciclerView = https://www.youtube.com/watch?v=0SdXoQ1g7RQ
         }

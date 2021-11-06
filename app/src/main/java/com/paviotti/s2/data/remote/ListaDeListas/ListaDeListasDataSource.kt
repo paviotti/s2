@@ -32,7 +32,7 @@ class ListaDeListasDataSource {
                 }
             }
         }
-
+      //  criaListaProdutos() /* cuidado, gera 10 registros em branco **/
 //        Grava dados, usei para teste
 //        var bd = FirebaseFirestore.getInstance()
 //        var reference = bd.collection("listas_de_compras")
@@ -58,6 +58,14 @@ class ListaDeListasDataSource {
             userReference.document(uid) //id do usuário
                 .collection("listas_de_compras").document().set(ListaDeListas(newItem)).await()
            // Log.d("Var", "newItem: $newItem")
+        }
+    }
+
+    //cria um produto em branco - cuidado
+    fun criaListaProdutos() {
+        for(i in 1..10) {
+            val userReference = FirebaseFirestore.getInstance().collection("produtos")
+            userReference.add(Produto("", "Mercearia"))
         }
     }
 }

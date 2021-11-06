@@ -22,7 +22,6 @@ import com.paviotti.s2.presentation.supermercados.ListaSupermercadosViewModelFac
 import com.paviotti.s2.ui.adapter.ListaSupermercadosAdapter
 
 class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickListSupermercados {
-    var qteSelected=0
 
     private lateinit var binding: FragmentSupermercadoBinding
     private val viewModel by viewModels<ListaSupermercadosViewModel> {
@@ -44,9 +43,11 @@ class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickList
         viewModel.fetchLatestList().observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is Result.Loading -> {
+
                     binding.progressBar.visibility = View.VISIBLE
                 }
                 is Result.Success -> {
+
                     binding.progressBar.visibility = View.GONE
                     binding.rvListasSupermercados.adapter =
                         ListaSupermercadosAdapter(result.data, this@SupermercadoFragment)
@@ -72,6 +73,7 @@ class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickList
                     alertDialog.show()
                 }
                 is Result.Success -> {
+
                     alertDialog.dismiss()
                 }
                 is Result.Failure -> {
@@ -83,10 +85,12 @@ class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickList
 
     //acrescenta
     override fun onUnChkImgClick(supermercado: Supermercado) {
-        if (qteSelected <= 3 ) {
+        fetchLatestList()
+        Log.d("aqui", "aquiUn: ${qteSelect}")
+        if (qteSelect <= 2) {
             ListaSupermercadosAdapter.gravar = true
             updateItem(supermercado)
-            fetchLatestList()
+
             Log.d("aqui", "aqui: ${qteSelect}")
         } else {
             Toast.makeText(context, "O máximo são 3 supermercados", Toast.LENGTH_SHORT).show()
@@ -95,10 +99,12 @@ class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickList
 
     //diminui
     override fun onChkImgClick(supermercado: Supermercado) {
-            if (qteSelected >=0) {
+        fetchLatestList()
+        Log.d("aqui", "aquiCh: ${qteSelect}")
+        if (qteSelect >= 0) {
             ListaSupermercadosAdapter.gravar = false
             updateItem(supermercado)
-            fetchLatestList()
+
             Log.d("aqui", "aqui: ${qteSelect}")
         } else {
             Toast.makeText(context, "O máximo são 3 supermercados", Toast.LENGTH_SHORT).show()
