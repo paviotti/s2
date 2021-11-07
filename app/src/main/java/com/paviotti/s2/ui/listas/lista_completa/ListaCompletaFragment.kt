@@ -1,6 +1,7 @@
 package com.paviotti.s2.ui.listas.lista_completa
 
 import android.app.AlertDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,6 +17,9 @@ import com.paviotti.s2.R
 import com.paviotti.s2.core.Result
 import com.paviotti.s2.data.model.Produto
 import com.paviotti.s2.data.model.VarStatic.Companion.nameListFull
+import com.paviotti.s2.data.model.VarStatic.Companion.nome_s1
+import com.paviotti.s2.data.model.VarStatic.Companion.nome_s2
+import com.paviotti.s2.data.model.VarStatic.Companion.nome_s3
 import com.paviotti.s2.data.model.VarStatic.Companion.total_s1
 import com.paviotti.s2.data.model.VarStatic.Companion.total_s2
 import com.paviotti.s2.data.model.VarStatic.Companion.total_s3
@@ -69,9 +73,19 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
 //                        "fragmentx1",
 //                        "TotalFrg: ${total_s1} , total2: ${total_s2}, total3: ${total_s3}"
 //                    )
+
+
+//                    if(total_s1==0.0){
+//                        //  binding.txtP1.setTextColor(     resources.getColor(R.color.red))
+//                        binding.txtP1.setTextColor(Color.RED)
+//                    }
+                    //nome e totais das listas
                     binding.txtP1.text = dec.format(total_s1).toString()
                     binding.txtP2.text = dec.format(total_s2).toString()
                     binding.txtP3.text = dec.format(total_s3).toString()
+                    binding.txtS1.text= nome_s1
+                    binding.txtS2.text= nome_s2
+                    binding.txtS3.text= nome_s3
                     binding.rvListaCompleta.adapter = ListaCompletaAdapter(
                         result.data, this@ListaCompletaFragment
                     )

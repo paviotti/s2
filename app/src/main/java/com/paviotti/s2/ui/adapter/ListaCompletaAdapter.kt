@@ -1,6 +1,7 @@
 package com.paviotti.s2.ui.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -55,7 +56,7 @@ class ListaCompletaAdapter(
             if (listOfProdutcts[position].include_item == true) {
                 if (qte > 0) {
                     listOfProdutcts[position].quantidade = (--qte).toDouble()
-                    Log.d("produto", "origem qte: $qte")
+                 //   Log.d("produto", "origem qte: $qte")
                 }
 
             }
@@ -83,12 +84,12 @@ class ListaCompletaAdapter(
         override fun bind(item: Produto) {
             binding.txtDescricao.text = item.descricao
             binding.txtUnidade.text = item.unidade
-            binding.txtPreco1.text = item.photo_url
+          //  binding.txtPreco1.text = item.photo_url
             binding.txtPreco1.text = item.valor_s1.toString()
             binding.txtPreco2.text = item.valor_s2.toString()
             binding.txtPreco3.text = item.valor_s3.toString()
             binding.quantidade.text = item.quantidade.toString()
-            Log.d("produto", "QTE: ${item.quantidade}")
+      //      Log.d("produto", "QTE: ${item.quantidade}")
 //            Log.d("resultado", " item.include_item: ${item.include_item} ")
 //            Log.d("resultado", "url:  ${item.descricao}")
             // item.quantidade = qte.toDouble()
@@ -97,11 +98,19 @@ class ListaCompletaAdapter(
             } else {
                 binding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_verde)
             }
+            if(item.valor_s1==0.0){
+                binding.txtPreco1.setTextColor(Color.RED)
+            }
+            if(item.valor_s2==0.0){
+                binding.txtPreco2.setTextColor(Color.RED)
+            }
+            if(item.valor_s3==0.0){
+                binding.txtPreco3.setTextColor(Color.RED)
+            }
 
             //  itemView.img_inclui_delete.setOnClickListener {itemClickList.onImgClick(produto = Produto())}
 
         }
-
     }
 
 }

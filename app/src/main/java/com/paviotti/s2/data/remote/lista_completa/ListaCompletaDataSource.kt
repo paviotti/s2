@@ -8,7 +8,13 @@ import com.paviotti.s2.data.model.Produto
 import kotlinx.coroutines.tasks.await
 import com.paviotti.s2.core.Result
 import com.paviotti.s2.data.model.SomaLista
+import com.paviotti.s2.data.model.VarStatic.Companion.id_s1
+import com.paviotti.s2.data.model.VarStatic.Companion.id_s2
+import com.paviotti.s2.data.model.VarStatic.Companion.id_s3
 import com.paviotti.s2.data.model.VarStatic.Companion.nameListFull
+import com.paviotti.s2.data.model.VarStatic.Companion.nome_s1
+import com.paviotti.s2.data.model.VarStatic.Companion.nome_s2
+import com.paviotti.s2.data.model.VarStatic.Companion.nome_s3
 import com.paviotti.s2.data.model.VarStatic.Companion.total_s1
 import com.paviotti.s2.data.model.VarStatic.Companion.total_s2
 import com.paviotti.s2.data.model.VarStatic.Companion.total_s3
@@ -23,8 +29,10 @@ class ListaCompletaDataSource {
         tot_l1 = 0.0
         tot_l2 = 0.0
         tot_l3 = 0.0
+        findSupermarketSelected() //chama quando entra em qualquer lista
         val listProdutos = mutableListOf<Produto>()
         val user = FirebaseAuth.getInstance().currentUser
+
         user?.uid?.let { uid ->
             /** deve ler os dados em produtos*/
             /** collection(produto).document()*/
@@ -35,6 +43,12 @@ class ListaCompletaDataSource {
                 //transforma itemList na classe Produto()
                 itemList.toObject((Produto::class.java))?.let { itens ->
                     itens.id = itemList.id  //grava o id do produto na lista e os dados
+                    Log.d("produto", "itemList.id: ${itemList.id} ${itemList.get("descricao")}")
+                    /** passa os 3 preços para a lista*/
+                    itens.valor_s1 = findPrice1(itemList.id)
+                    itens.valor_s2 = findPrice2(itemList.id)
+                    itens.valor_s3 = findPrice3(itemList.id)
+
                     val listReference =
                         FirebaseFirestore.getInstance().collection("users").document(uid)
                             .collection("listas_de_compras")
@@ -48,13 +62,15 @@ class ListaCompletaDataSource {
                             listReference.document(iDList).collection(idNameList).get()
                                 .addOnSuccessListener { docs ->
                                     for (doc in docs) {
-
                                         if (doc.get("id").toString() == itemList.id) {
                                             /** precisa chegar true até a lista para mudar a cor do botão*/
                                             itens.include_item =
                                                 doc.getBoolean("include_item") as (Boolean)
                                             itens.quantidade =
                                                 doc.get("quantidade") as Double //repassa o estoque para o banco
+
+
+
                                         }
 
                                     }
@@ -71,6 +87,79 @@ class ListaCompletaDataSource {
         total_s2 = tot_l2
         total_s3 = tot_l3
         return Result.Success(listProdutos)
+    }
+
+    //=====================
+    suspend fun findPrice1(idProduct: String): Double {
+        val reference =
+            FirebaseFirestore.getInstance().collection("produtos").document(idProduct)
+                .collection("supermercados").document(id_s1).get().await()
+        val preco1 = (reference.get("preco")).toString()
+        Log.d("precoProd", "IdSup:${id_s1}  preço:$preco1 ")
+        return preco1.toDouble()
+    }
+
+    suspend fun findPrice2(idProduct: String): Double {
+        val reference =
+            FirebaseFirestore.getInstance().collection("produtos").document(idProduct)
+                .collection("supermercados").document(id_s2).get().await()
+        val preco1 = (reference.get("preco")).toString()
+        Log.d("precoProd", "IdSup:${id_s2}  preço:$preco1 ")
+        return preco1.toDouble()
+    }
+    suspend fun findPrice3(idProduct: String): Double {
+        val reference =
+            FirebaseFirestore.getInstance().collection("produtos").document(idProduct)
+                .collection("supermercados").document(id_s3).get().await()
+        val preco1 = (reference.get("preco")).toString()
+        Log.d("precoProd", "IdSup:${id_s3}  preço:$preco1 ")
+        return preco1.toDouble()
+    }
+
+
+    //=========================================================
+    //pega os ids dos supermercados selecionados e armazena em variavel public
+    suspend fun findSupermarketSelected() {
+        var qtde = 0
+        id_s1 = ""
+        id_s2 = ""
+        id_s3 = ""
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.uid?.let { uid ->
+            val referenceSupermarket = FirebaseFirestore.getInstance().collection("supermercados")
+            val idsInSupermercado = referenceSupermarket.get().await()
+            for (idSup in idsInSupermercado) {
+
+                val referenceIdUserSupermercado =
+                    FirebaseFirestore.getInstance().collection("supermercados").document(idSup.id)
+                        .collection("users").get().await()
+                referenceIdUserSupermercado.documents.forEach { itens ->
+                    qtde++
+                    Log.d("supermercados", "itens.idSup: ${idSup.id}")
+                    Log.d("supermercados", "itens.Nome: ${idSup.get("nome_fantasia")}")
+                    //   Log.d("supermercados", "itens.ids: ${itens.get("uid")}")
+
+                    when (qtde) {
+                        1 -> {
+                            id_s1 = idSup.id
+                            nome_s1 = idSup.get("nome_fantasia").toString()
+                        }
+                        2 -> {
+                            id_s2 = idSup.id
+                            nome_s2 = idSup.get("nome_fantasia").toString()
+                        }
+                        3 -> {
+                            id_s3 = idSup.id
+                            nome_s3 = idSup.get("nome_fantasia").toString()
+                        }
+                    }
+                    Log.d(
+                        "supermercadosx",
+                        "soma: ${qtde} ids1: $id_s1, ids1: $id_s2, ids1: $id_s3"
+                    )
+                }
+            }
+        }
     }
 
     //==========================================================

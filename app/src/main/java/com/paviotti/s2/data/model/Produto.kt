@@ -7,9 +7,9 @@ data class Produto(
     val descricao: String = "",
     var quantidade: Double = 0.0,
     val unidade: String = "",
-    val valor_s1: Double = 0.0,
-    val valor_s2: Double = 0.0,
-    val valor_s3: Double = 0.0,
+    var valor_s1: Double = 0.0,
+    var valor_s2: Double = 0.0,
+    var valor_s3: Double = 0.0,
     val usuario: String = "",
     var photo_url: String = "",
     var include_item: Boolean = false
