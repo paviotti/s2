@@ -13,6 +13,7 @@ import com.paviotti.s2.data.model.Produto
 import com.paviotti.s2.databinding.CardListaCompletaBinding
 import com.paviotti.s2.presentation.lista_completa.ClickListaCompleta
 import kotlinx.android.synthetic.main.card_lista_completa.view.*
+import com.paviotti.s2.data.model.ItemListSum as ItemListSum
 
 /** O adaptador recebe uma lista de Produto (model)
  *  a classe implementa o RecyclerView e recebe um viewHolder
@@ -30,42 +31,39 @@ class ListaCompletaAdapter(
         /** pega o click no icone adicionar/remover do botão*/
         val holder = ListaCompletaViewHolder(itemBinding, parent.context)
 
-        /** pega o click imgInclui*/
+        /** pega o click imgInclui quantidade de itens*/
         var qte = 0.0
-        //============== incrementa =================================
+        //incrementa
         itemBinding.imgInclui.setOnClickListener {
             val position =
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener //se não for, retorne
-
+            itemClickList.onImgClickAdd(listOfProdutcts[position]) //passa a lista de produtos ao clicar na imagem
             qte = listOfProdutcts[position].quantidade //recebe o valor do banco de dados
+          //  Log.d("qte", "qte+: $qte")
             if (listOfProdutcts[position].include_item == true) {
                 listOfProdutcts[position].quantidade = (++qte).toDouble()
-                //itemBinding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_azul) //setImageResource(R.drawable.ic_menu_camera)
             }
-            itemClickList.onImgClick(listOfProdutcts[position]) //passa a lista de produtos ao clicar na imagem
-
             notifyDataSetChanged() //redesenha a reciclerView
+
         }
-        //================= decrementa ==============================
+        // decrementa e exclui os itens
         itemBinding.imgDelete.setOnClickListener {
             val position =
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener //se não for, retorne
+            itemClickList.onImgClickSub(listOfProdutcts[position]) //passa a lista de produtos ao clicar na imagem
             qte = listOfProdutcts[position].quantidade //recebe o valor do banco de dados
             if (listOfProdutcts[position].include_item == true) {
                 if (qte > 0) {
                     listOfProdutcts[position].quantidade = (--qte).toDouble()
-                 //   Log.d("produto", "origem qte: $qte")
+                    //   Log.d("produto", "origem qte: $qte")
                 }
-
             }
-            itemClickList.onImgClick(listOfProdutcts[position]) //passa a lista de produtos ao clicar na imagem
             notifyDataSetChanged() //redesenha a reciclerView
+
         }
-        //===============================================
         return holder
-        //  return ListaCompletaViewHolder(itemBinding, parent.context)
     }
 
     /** cria o holder (cardView)*/
@@ -73,7 +71,12 @@ class ListaCompletaAdapter(
         when (holder) {
             is ListaCompletaViewHolder -> holder.bind(listOfProdutcts[position])
         }
+        //controla rolagem de tela
+        if(position == itemCount-1){
+            itemClickList.onClickScroll()
+        }
     }
+
 
     override fun getItemCount(): Int = listOfProdutcts.size
 
@@ -84,33 +87,71 @@ class ListaCompletaAdapter(
         override fun bind(item: Produto) {
             binding.txtDescricao.text = item.descricao
             binding.txtUnidade.text = item.unidade
-          //  binding.txtPreco1.text = item.photo_url
             binding.txtPreco1.text = item.valor_s1.toString()
             binding.txtPreco2.text = item.valor_s2.toString()
             binding.txtPreco3.text = item.valor_s3.toString()
             binding.quantidade.text = item.quantidade.toString()
-      //      Log.d("produto", "QTE: ${item.quantidade}")
-//            Log.d("resultado", " item.include_item: ${item.include_item} ")
-//            Log.d("resultado", "url:  ${item.descricao}")
-            // item.quantidade = qte.toDouble()
+            swapColor(item)
+          //  sum(item)
+            //  itemView.img_inclui_delete.setOnClickListener {itemClickList.onImgClick(produto = Produto())}
+        }
+
+        //teria o objetivo de somar os valores, mas falhou
+        val listSun: MutableList<ItemListSum> = mutableListOf()
+        var itemList = ItemListSum()
+        fun sum(item: Produto) {
+            var tot1 = 0.0
+            var tot2 = 0.0
+            var tot3 = 0.0
+            when {
+                item.quantidade > 0.0 -> {
+                    tot1 += item.valor_s1 * item.quantidade
+                    tot2 += item.valor_s2 * item.quantidade
+                    tot3 += item.valor_s3 * item.quantidade
+                    itemList.pos = layoutPosition
+                    itemList.valor1 = tot1
+                    if (itemList.pos == layoutPosition) {
+                        itemList.salvo = true
+                        listSun.add(itemList)
+
+//                        Log.d(
+//                            "qtexx",
+//                            "pos: ${itemList.pos} bool: ${itemList.salvo} val: ${itemList.valor1} item.quantidade: ${item.quantidade} tot1: $tot1 tot2: $tot2 tot3: $tot3 prd: ${item.descricao}"
+//                        )
+                    }
+
+                }
+            }
+        }
+
+        fun swapColor(item: Produto) {
+
             if (item.quantidade > 0) {
                 binding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_azul)
             } else {
                 binding.imgInclui.setImageResource(R.drawable.ic_add_circle_24_verde)
             }
-            if(item.valor_s1==0.0){
+            if (item.valor_s1 == 0.0) {
                 binding.txtPreco1.setTextColor(Color.RED)
+            } else {
+                binding.txtPreco1.setTextColor(Color.BLACK)
             }
-            if(item.valor_s2==0.0){
+
+            if (item.valor_s2 == 0.0) {
                 binding.txtPreco2.setTextColor(Color.RED)
+            } else {
+                binding.txtPreco2.setTextColor(Color.BLACK)
             }
-            if(item.valor_s3==0.0){
+
+            if (item.valor_s3 == 0.0) {
                 binding.txtPreco3.setTextColor(Color.RED)
+            } else {
+                binding.txtPreco3.setTextColor(Color.BLACK)
             }
-
-            //  itemView.img_inclui_delete.setOnClickListener {itemClickList.onImgClick(produto = Produto())}
-
         }
+
     }
 
 }
+
+

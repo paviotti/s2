@@ -5,19 +5,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="ui.listas.lista_completa.ListaCompletaFragment">
-
+<!--
     <RelativeLayout
         android:id="@+id/progress_bar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
+        -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:indeterminateTint="#2962FF"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/rv_lista_completa"
+        app:layout_constraintTop_toBottomOf="@+id/titulo" />
 
-        <ProgressBar
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerInParent="true"
-            android:indeterminateTint="#2962FF" />
-    </RelativeLayout>
 
     <TextView
         android:id="@+id/titulo"

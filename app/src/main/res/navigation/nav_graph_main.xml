@@ -81,6 +81,9 @@
         android:name="com.paviotti.s2.ui.listas.lista_completa.ListaCompletaFragment"
         android:label="Escolha os produtos">
         <argument
+            android:name="idList"
+            app:argType="string" />
+        <argument
             android:name="nameList"
             app:argType="string" />
     </fragment>

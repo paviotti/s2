@@ -1,18 +1,13 @@
 package com.paviotti.s2.ui.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
-import com.paviotti.s2.R
 import com.paviotti.s2.core.Base.BaseViewHolder
 import com.paviotti.s2.data.model.ListaDeListas
 import com.paviotti.s2.databinding.ItemListaComprasBinding
 import com.paviotti.s2.presentation.listadelistas.ClickList
-import com.paviotti.s2.presentation.listadelistas.ListaDeListasViewModel
 import kotlinx.android.synthetic.main.item_lista_compras.view.*
 
 /** O adaptador recebe uma lista das listas (model)
@@ -24,7 +19,6 @@ class ListaDeListasAdapter(
     private val listListas: List<ListaDeListas>,
     private val itemClickList: ClickList
 ) : RecyclerView.Adapter<BaseViewHolder<*>>() {
-
 
     /** cria o post, ou seja a telinha com todas as informações*/
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
@@ -55,6 +49,7 @@ class ListaDeListasAdapter(
     ) : BaseViewHolder<ListaDeListas>(binding.root) {
         /** implementa o metodo bind para passar os itens da lista, ela recebe em(item: ListaDeListas)*/
         override fun bind(item: ListaDeListas) {
+
             //https://www.youtube.com/watch?v=eaMj60Lb05Q
             //click no cardView
           //  Log.d("lista","btn_delete: ${item.btn_delete} item.nome_da_lista: ${item.nome_da_lista}")
@@ -63,7 +58,11 @@ class ListaDeListasAdapter(
                 //precisa descomentar no item_lista_compras
              //   binding.imageDelete.setImageResource(R.drawable.ic_delete_24)
             }
-            itemView.item_da_lista.setOnClickListener { itemClickList.onItemClick(item.nome_da_lista) }
+
+           // Log.d("IDnomedalista","IDnomedalista: ${item.id_lista}")
+            itemView.item_da_lista.setOnClickListener { itemClickList.onItemClick(item.id_lista, item.nome_da_lista) }
+            //foi substituido o item abaixo
+           // itemView.item_da_lista.setOnClickListener { itemClickList.onItemClick(item.nome_da_lista) }
             //precisa descomentar no item_lista_compras
            // itemView.image_delete.setOnClickListener { itemClickList.onImageclick(item.btn_delete) }
         }

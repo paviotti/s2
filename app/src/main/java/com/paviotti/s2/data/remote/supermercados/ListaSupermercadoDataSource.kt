@@ -66,7 +66,7 @@ class ListaSupermercadoDataSource {
         }
         contador(conta) //faz a contagem de supermercados selecionados
 
-        Log.d("qtde", "listOriginal: ${contador(conta)} ")
+      //  Log.d("qtde", "listOriginal: ${contador(conta)} ")
         return Result.Success(listSupermarket)
     }
 

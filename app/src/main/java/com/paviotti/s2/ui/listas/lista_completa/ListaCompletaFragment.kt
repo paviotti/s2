@@ -16,6 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.paviotti.s2.R
 import com.paviotti.s2.core.Result
 import com.paviotti.s2.data.model.Produto
+import com.paviotti.s2.data.model.VarStatic.Companion.idList
 import com.paviotti.s2.data.model.VarStatic.Companion.nameListFull
 import com.paviotti.s2.data.model.VarStatic.Companion.nome_s1
 import com.paviotti.s2.data.model.VarStatic.Companion.nome_s2
@@ -55,6 +56,7 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
         binding = FragmentListaCompletaBinding.bind(view)
         binding.titulo.text =
             safeArgs.nameList //recebe o valor do primeiro fragment, é definido em nav_graph arguments
+        idList = safeArgs.idList
         nameListFull = safeArgs.nameList //pserá passado para dataSource
     }
 
@@ -69,16 +71,7 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
                     binding.progressBar.visibility = View.GONE
                     //binding.titulo.text = viewModel.nomeLista
                     val dec = DecimalFormat("#,###.00")
-//                    Log.d(
-//                        "fragmentx1",
-//                        "TotalFrg: ${total_s1} , total2: ${total_s2}, total3: ${total_s3}"
-//                    )
 
-
-//                    if(total_s1==0.0){
-//                        //  binding.txtP1.setTextColor(     resources.getColor(R.color.red))
-//                        binding.txtP1.setTextColor(Color.RED)
-//                    }
                     //nome e totais das listas
                     binding.txtP1.text = dec.format(total_s1).toString()
                     binding.txtP2.text = dec.format(total_s2).toString()
@@ -103,22 +96,17 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
     }
 
     private fun creatNewItemList(produto: Produto) {
-        val alertDialog =
-            AlertDialog.Builder(requireContext()).setTitle("Aguarde por favor...").create()
         produto.let {
             viewModel.createNewItem(it).observe(viewLifecycleOwner, { result ->
                 when (result) {
                     is Result.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
-                        alertDialog.show()
                     }
                     is Result.Success -> {
                         binding.progressBar.visibility = View.GONE
-                        alertDialog.dismiss()
                     }
                     is Result.Failure -> {
                         binding.progressBar.visibility = View.GONE
-                        alertDialog.dismiss()
                     }
                 }
             })
@@ -126,32 +114,44 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
     }
 
     //recebe os valores dos itens do produto selecionado
-    override fun onImgClick(produto: Produto) {
+    override fun onImgClickAdd(produto: Produto) {
         produto.include_item = true //atualiza o campo
-        /**criar um update para atualizar quantidade aqui*/
         creatNewItemList(produto) //pede para incluir um produto
         updateItemLista(produto) //altera ou exclui
-        fetchLatestListComplete() //atualiza a lista de produtos - pausei porque piora
+        fetchLatestListComplete() //atualiza a lista de produtos se não ativar não soma
+    }
+
+    //atualiza ou exclui um item da nova lista
+    override fun onImgClickSub(produto: Produto) {
+        updateItemLista(produto) //altera ou exclui
+        fetchLatestListComplete()
+    }
+
+    //atulaiza a lista ao chegar ao fim da tela
+    override fun onClickScroll() {
+     //   fetchLatestListComplete()
+//        Log.d("roll", "fim da tela")
+        Toast.makeText(context, "fim da tela", Toast.LENGTH_LONG).show()
     }
 
     //atualiza a lista de produtos para somar os valores
     private fun updateSun(produto: Produto) {
-        val alertDialog =
-            AlertDialog.Builder(requireContext()).setTitle("Verificando quantidade ").create()
+//        val alertDialog =
+//            AlertDialog.Builder(requireContext()).setTitle("Verificando quantidade ").create()
         produto.let {
             viewModel.updateSun(it).observe(viewLifecycleOwner, { result ->
                 when (result) {
                     is Result.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
-                        alertDialog.show()
+                   //     alertDialog.show()
                     }
                     is Result.Success -> {
                         binding.progressBar.visibility = View.GONE
-                        alertDialog.dismiss()
+                   //     alertDialog.dismiss()
                     }
                     is Result.Failure -> {
                         binding.progressBar.visibility = View.GONE
-                        alertDialog.dismiss()
+                     //   alertDialog.dismiss()
                     }
                 }
             })
@@ -160,22 +160,22 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
     }
 
     private fun updateItemLista(produto: Produto) {
-        val alertDialog =
-            AlertDialog.Builder(requireContext()).setTitle("Atualizando a quantidade...").create()
+//        val alertDialog =
+//            AlertDialog.Builder(requireContext()).setTitle("Atualizando a quantidade...").create()
         produto.let {
             viewModel.updateItemLista(it).observe(viewLifecycleOwner, { result ->
                 when (result) {
                     is Result.Loading -> {
                         binding.progressBar.visibility = View.GONE
-                        alertDialog.show()
+               //         alertDialog.show()
                     }
                     is Result.Success -> {
                         binding.progressBar.visibility = View.GONE
-                        alertDialog.dismiss()
+                     //   alertDialog.dismiss()
                     }
                     is Result.Failure -> {
                         binding.progressBar.visibility = View.GONE
-                        alertDialog.dismiss()
+                    //    alertDialog.dismiss()
                     }
                 }
             })

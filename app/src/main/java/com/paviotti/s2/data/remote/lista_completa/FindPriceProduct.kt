@@ -12,7 +12,7 @@ class FindPriceProduct {
             FirebaseFirestore.getInstance().collection("produtos").document(idProduct)
                 .collection("supermercados").get().await()
         reference.documents.forEach { priceProd ->
-            Log.d("precoProd","preço: ${priceProd.data}")
+        //    Log.d("precoProd","preço: ${priceProd.data}")
 
         }
 

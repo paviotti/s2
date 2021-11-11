@@ -28,6 +28,7 @@ class ListaDeListasDataSource {
             // pega cada documento dentro de listas_de_compras
             for (itemList in querySnapshot.documents) {
                 itemList.toObject(ListaDeListas::class.java)?.let { itens ->
+                    itens.id_lista = itemList.id //retorna o id da lista
                     listListas.add(itens)
                 }
             }
@@ -61,7 +62,7 @@ class ListaDeListasDataSource {
         }
     }
 
-    //cria um produto em branco - cuidado
+    //cria um produto em branco - cuidado, só para testes
     fun criaListaProdutos() {
         for(i in 1..10) {
             val userReference = FirebaseFirestore.getInstance().collection("produtos")

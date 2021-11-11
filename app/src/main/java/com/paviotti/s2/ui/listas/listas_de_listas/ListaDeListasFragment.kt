@@ -48,8 +48,8 @@ class ListaDeListasFragment : Fragment(R.layout.fragment_lista_de_listas), Click
     //https://www.udemy.com/course/curso-definitivo-para-aprender-a-programar-en-android/learn/lecture/26519106#announcements
     private fun createNewItemList() {
         val newItem = binding.txtNewItem.text.toString().trim()
-        val alertDialog =
-            AlertDialog.Builder(requireContext()).setTitle("Uploding photo...").create()
+//        val alertDialog =
+//            AlertDialog.Builder(requireContext()).setTitle("Uploding photo...").create()
         //verifica se newItem é null
         newItem.let {
             viewModel.createNewItem(it).observe(viewLifecycleOwner, { result ->
@@ -57,24 +57,25 @@ class ListaDeListasFragment : Fragment(R.layout.fragment_lista_de_listas), Click
                 when (result) {
                     is Result.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
-                        alertDialog.show()
+                        // alertDialog.show()
                     }
                     is Result.Success -> {
 
                         binding.progressBar.visibility = View.GONE
-                        alertDialog.dismiss()
+                        // alertDialog.dismiss()
                     }
                     is Result.Failure -> {
                         binding.progressBar.visibility = View.GONE
-                        alertDialog.dismiss()
+                        //  alertDialog.dismiss()
                     }
                 }
             })
         }
 
     }
+
     //faz a busca na lista do Firebase
-    fun fetchLatestList(){
+    fun fetchLatestList() {
         viewModel.fetchLatestList().observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is Result.Loading -> {
@@ -109,11 +110,13 @@ class ListaDeListasFragment : Fragment(R.layout.fragment_lista_de_listas), Click
             }
         }
     }
+
     //https://www.youtube.com/watch?v=eaMj60Lb05Q&t=1319s
-    override fun onItemClick(nomeDaLista: String) {
-        val action = ListaDeListasFragmentDirections.actionNavListasToListaCompletaFragment(nomeDaLista)
+    override fun onItemClick(idLista: String, nomeDaLista: String) {
+        val action =
+            ListaDeListasFragmentDirections.actionNavListasToListaCompletaFragment(idLista, nomeDaLista)
         findNavController().navigate(action)
-       // Log.d("Var", "nome da lista: $nomeDaLista")
+        // Log.d("Var", "nome da lista: $nomeDaLista")
     }
 
     override fun onImageclick(btn_delete: Boolean) {

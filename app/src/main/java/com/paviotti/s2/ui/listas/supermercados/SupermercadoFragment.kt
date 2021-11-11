@@ -86,12 +86,12 @@ class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickList
     //acrescenta
     override fun onUnChkImgClick(supermercado: Supermercado) {
         fetchLatestList()
-        Log.d("aqui", "aquiUn: ${qteSelect}")
+      //  Log.d("aqui", "aquiUn: ${qteSelect}")
         if (qteSelect <= 2) {
             ListaSupermercadosAdapter.gravar = true
             updateItem(supermercado)
 
-            Log.d("aqui", "aqui: ${qteSelect}")
+         //   Log.d("aqui", "aqui: ${qteSelect}")
         } else {
             Toast.makeText(context, "O máximo são 3 supermercados", Toast.LENGTH_SHORT).show()
         }
@@ -100,12 +100,12 @@ class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickList
     //diminui
     override fun onChkImgClick(supermercado: Supermercado) {
         fetchLatestList()
-        Log.d("aqui", "aquiCh: ${qteSelect}")
+       // Log.d("aqui", "aquiCh: ${qteSelect}")
         if (qteSelect >= 0) {
             ListaSupermercadosAdapter.gravar = false
             updateItem(supermercado)
 
-            Log.d("aqui", "aqui: ${qteSelect}")
+        //    Log.d("aqui", "aqui: ${qteSelect}")
         } else {
             Toast.makeText(context, "O máximo são 3 supermercados", Toast.LENGTH_SHORT).show()
         }
