@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import androidx.navigation.NavDirections
 import com.paviotti.s2.core.Result
+import com.paviotti.s2.data.model.ListaDeListas
 import com.paviotti.s2.domain.listadelistas.ListaDeListasRepository
 import com.paviotti.s2.ui.listas.listas_de_listas.ListaDeListasFragmentDirections
 import kotlinx.coroutines.Dispatchers
@@ -26,6 +27,16 @@ class ListaDeListasViewModel(private val repository: ListaDeListasRepository) : 
         } catch (e: Exception) {
             emit(Result.Failure(e))
         }
+    }
+    //apaga uma lista
+    fun deleteList(btnDelete: ListaDeListas) = liveData(Dispatchers.IO) {
+        emit(Result.Loading())
+        try {
+            emit(Result.Success(repository.deleteList(btnDelete)))
+        }catch (e:java.lang.Exception){
+            emit(Result.Failure(e))
+        }
+
     }
 
     //https://www.udemy.com/course/curso-definitivo-para-aprender-a-programar-en-android/learn/lecture/26511092#announcements

@@ -54,17 +54,11 @@ class ListaDeListasAdapter(
             //click no cardView
           //  Log.d("lista","btn_delete: ${item.btn_delete} item.nome_da_lista: ${item.nome_da_lista}")
             binding.itemDaLista.text = item.nome_da_lista //tópicos da tela - não mexa aqui
-            if (item.btn_delete) {
-                //precisa descomentar no item_lista_compras
-             //   binding.imageDelete.setImageResource(R.drawable.ic_delete_24)
-            }
 
            // Log.d("IDnomedalista","IDnomedalista: ${item.id_lista}")
             itemView.item_da_lista.setOnClickListener { itemClickList.onItemClick(item.id_lista, item.nome_da_lista) }
-            //foi substituido o item abaixo
-           // itemView.item_da_lista.setOnClickListener { itemClickList.onItemClick(item.nome_da_lista) }
             //precisa descomentar no item_lista_compras
-           // itemView.image_delete.setOnClickListener { itemClickList.onImageclick(item.btn_delete) }
+            itemView.image_delete.setOnClickListener { itemClickList.onImageclick(item) }
         }
     }
 

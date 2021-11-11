@@ -59,18 +59,18 @@
             android:text="Qtde"
             app:layout_constraintEnd_toStartOf="@+id/quantidade"
             app:layout_constraintTop_toTopOf="@+id/quantidade" />
-
-        <TextView
-            android:id="@+id/preco_s1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="2dp"
-            android:text="$1="
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/txt_preco1"
-            app:layout_constraintEnd_toStartOf="@+id/txt_preco1"
-            app:layout_constraintTop_toTopOf="@+id/txt_preco1" />
-
+        <!--
+                <TextView
+                    android:id="@+id/preco_s1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:text="$1="
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_preco1"
+                    app:layout_constraintEnd_toStartOf="@+id/txt_preco1"
+                    app:layout_constraintTop_toTopOf="@+id/txt_preco1" />
+        -->
         <TextView
             android:id="@+id/txt_preco1"
             android:layout_width="wrap_content"
@@ -83,18 +83,18 @@
             app:layout_constraintTop_toBottomOf="@+id/txt_descricao"
             tools:text="1225,80" />
 
-
-        <TextView
-            android:id="@+id/preco_s2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="2dp"
-            android:text="$2="
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/txt_preco2"
-            app:layout_constraintEnd_toStartOf="@+id/txt_preco2"
-            app:layout_constraintTop_toTopOf="@+id/txt_preco2" />
-
+        <!--
+                <TextView
+                    android:id="@+id/preco_s2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:text="$2="
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_preco2"
+                    app:layout_constraintEnd_toStartOf="@+id/txt_preco2"
+                    app:layout_constraintTop_toTopOf="@+id/txt_preco2" />
+        -->
         <TextView
             android:id="@+id/txt_preco2"
             android:layout_width="wrap_content"
@@ -105,17 +105,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="1237,50" />
-
-        <TextView
-            android:id="@+id/preco_s3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="2dp"
-            android:text="$3="
-            app:layout_constraintBottom_toBottomOf="@+id/txt_preco3"
-            app:layout_constraintEnd_toStartOf="@+id/txt_preco3"
-            app:layout_constraintTop_toTopOf="@+id/txt_preco3" />
-
+        <!--
+                <TextView
+                    android:id="@+id/preco_s3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:text="$3="
+                    app:layout_constraintBottom_toBottomOf="@+id/txt_preco3"
+                    app:layout_constraintEnd_toStartOf="@+id/txt_preco3"
+                    app:layout_constraintTop_toTopOf="@+id/txt_preco3" />
+                -->
         <TextView
             android:id="@+id/txt_preco3"
             android:layout_width="wrap_content"

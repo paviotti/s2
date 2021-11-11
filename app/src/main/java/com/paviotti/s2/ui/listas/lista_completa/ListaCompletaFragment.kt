@@ -131,7 +131,7 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
     override fun onClickScroll() {
      //   fetchLatestListComplete()
 //        Log.d("roll", "fim da tela")
-        Toast.makeText(context, "fim da tela", Toast.LENGTH_LONG).show()
+   //     Toast.makeText(context, "fim da tela", Toast.LENGTH_LONG).show()
     }
 
     //atualiza a lista de produtos para somar os valores

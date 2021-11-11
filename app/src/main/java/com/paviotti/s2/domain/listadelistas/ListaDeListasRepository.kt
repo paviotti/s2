@@ -11,4 +11,5 @@ interface ListaDeListasRepository {
     suspend fun getLatestListas(): Result<List<ListaDeListas>>
     //recebe os dados de viewModel
     suspend fun createNewItem(newItem: String) //:FirebaseUser? //pode ou não retornar nada
+    suspend fun deleteList(btnDelete: ListaDeListas) //apaga uma lista completa
 }

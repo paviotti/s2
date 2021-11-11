@@ -17,4 +17,8 @@ class ListaDeListasRepositoryImplement(private val dataSource: ListaDeListasData
         return dataSource.createNewItem(newItem)
     }
 
+    override suspend fun deleteList(btnDelete: ListaDeListas) {
+        return dataSource.deleteList(btnDelete)
+    }
+
 }

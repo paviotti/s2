@@ -13,6 +13,7 @@ import com.paviotti.s2.data.model.Produto
 import com.paviotti.s2.databinding.CardListaCompletaBinding
 import com.paviotti.s2.presentation.lista_completa.ClickListaCompleta
 import kotlinx.android.synthetic.main.card_lista_completa.view.*
+import java.text.DecimalFormat
 import com.paviotti.s2.data.model.ItemListSum as ItemListSum
 
 /** O adaptador recebe uma lista de Produto (model)
@@ -85,11 +86,12 @@ class ListaCompletaAdapter(
         val binding: CardListaCompletaBinding, val context: Context
     ) : BaseViewHolder<Produto>(binding.root) {
         override fun bind(item: Produto) {
+            val dec = DecimalFormat("#,###.00")
             binding.txtDescricao.text = item.descricao
             binding.txtUnidade.text = item.unidade
-            binding.txtPreco1.text = item.valor_s1.toString()
-            binding.txtPreco2.text = item.valor_s2.toString()
-            binding.txtPreco3.text = item.valor_s3.toString()
+            binding.txtPreco1.text = dec.format(item.valor_s1).toString()
+            binding.txtPreco2.text = dec.format(item.valor_s2).toString()
+            binding.txtPreco3.text = dec.format(item.valor_s3).toString()
             binding.quantidade.text = item.quantidade.toString()
             swapColor(item)
           //  sum(item)

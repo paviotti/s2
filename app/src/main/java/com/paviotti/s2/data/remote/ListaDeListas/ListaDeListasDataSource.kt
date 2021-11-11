@@ -33,7 +33,7 @@ class ListaDeListasDataSource {
                 }
             }
         }
-      //  criaListaProdutos() /* cuidado, gera 10 registros em branco **/
+        //  criaListaProdutos() /* cuidado, gera 10 registros em branco **/
 //        Grava dados, usei para teste
 //        var bd = FirebaseFirestore.getInstance()
 //        var reference = bd.collection("listas_de_compras")
@@ -58,15 +58,28 @@ class ListaDeListasDataSource {
             val userReference = FirebaseFirestore.getInstance().collection("users")
             userReference.document(uid) //id do usuário
                 .collection("listas_de_compras").document().set(ListaDeListas(newItem)).await()
-           // Log.d("Var", "newItem: $newItem")
+            // Log.d("Var", "newItem: $newItem")
         }
     }
 
-    //cria um produto em branco - cuidado, só para testes
+
+    //cria um produto em branco - não apague - cuidado, só para testes
     fun criaListaProdutos() {
-        for(i in 1..10) {
+        for (i in 1..10) {
             val userReference = FirebaseFirestore.getInstance().collection("produtos")
             userReference.add(Produto("", "Mercearia"))
         }
+    }
+
+    // apaga uma lista personalizada e seu conteúdo
+    suspend fun deleteList(btnDelete: ListaDeListas) {
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.uid?.let { it ->
+            val listReference = FirebaseFirestore.getInstance().collection("users").document(it)
+                .collection("listas_de_compras").document(btnDelete.id_lista)
+            listReference.delete().await()
+            Log.d("apagar", "${btnDelete.id_lista}")
+        }
+
     }
 }

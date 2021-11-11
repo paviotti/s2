@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.paviotti.s2.R
 import com.paviotti.s2.core.Result
+import com.paviotti.s2.data.model.ListaDeListas
 
 import com.paviotti.s2.data.remote.ListaDeListas.ListaDeListasDataSource
 import com.paviotti.s2.databinding.FragmentListaDeListasBinding
@@ -114,13 +115,31 @@ class ListaDeListasFragment : Fragment(R.layout.fragment_lista_de_listas), Click
     //https://www.youtube.com/watch?v=eaMj60Lb05Q&t=1319s
     override fun onItemClick(idLista: String, nomeDaLista: String) {
         val action =
-            ListaDeListasFragmentDirections.actionNavListasToListaCompletaFragment(idLista, nomeDaLista)
+            ListaDeListasFragmentDirections.actionNavListasToListaCompletaFragment(
+                idLista,
+                nomeDaLista
+            )
         findNavController().navigate(action)
         // Log.d("Var", "nome da lista: $nomeDaLista")
     }
 
-    override fun onImageclick(btn_delete: Boolean) {
-//        Toast.makeText(context, "Click na imagem $btn_delete", Toast.LENGTH_LONG).show()
-//        Log.d("Imagem", "Click imagem")
+    override fun onImageclick(btnDelete: ListaDeListas) {
+        viewModel.deleteList(btnDelete).observe(viewLifecycleOwner, Observer { result->
+            when(result){
+                is Result.Loading->{
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is Result.Success->{
+                    binding.progressBar.visibility = View.GONE
+                    fetchLatestList() //refresh
+                    Toast.makeText(context, "Lista ${btnDelete.nome_da_lista} apagada com sucesso", Toast.LENGTH_LONG).show()
+                }
+                is Result.Failure->{
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+        })
+        // Toast.makeText(context, "Click na imagem: ${btnDelete.btn_delete}", Toast.LENGTH_LONG).show()
+        Log.d("Imagem", "Click imagem: ${btnDelete.btn_delete}")
     }
 }
