@@ -1,6 +1,7 @@
 package com.paviotti.s2.ui.listas.listas_de_listas
 
 import android.app.AlertDialog
+import android.content.DialogInterface
 
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.paviotti.s2.R
 import com.paviotti.s2.core.Result
 import com.paviotti.s2.data.model.ListaDeListas
@@ -123,23 +125,50 @@ class ListaDeListasFragment : Fragment(R.layout.fragment_lista_de_listas), Click
         // Log.d("Var", "nome da lista: $nomeDaLista")
     }
 
+    //recebe o click do adapter e pede confirmação
     override fun onImageclick(btnDelete: ListaDeListas) {
-        viewModel.deleteList(btnDelete).observe(viewLifecycleOwner, Observer { result->
-            when(result){
-                is Result.Loading->{
+        confirmExclude(btnDelete)
+    }
+
+    fun deleteList(btnDelete: ListaDeListas) {
+        viewModel.deleteList(btnDelete).observe(viewLifecycleOwner, Observer { result ->
+            when (result) {
+                is Result.Loading -> {
                     binding.progressBar.visibility = View.VISIBLE
                 }
-                is Result.Success->{
+                is Result.Success -> {
                     binding.progressBar.visibility = View.GONE
                     fetchLatestList() //refresh
-                    Toast.makeText(context, "Lista ${btnDelete.nome_da_lista} apagada com sucesso", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        context,
+                        "Lista ${btnDelete.nome_da_lista} apagada com sucesso",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
-                is Result.Failure->{
+                is Result.Failure -> {
                     binding.progressBar.visibility = View.GONE
                 }
             }
         })
-        // Toast.makeText(context, "Click na imagem: ${btnDelete.btn_delete}", Toast.LENGTH_LONG).show()
-        Log.d("Imagem", "Click imagem: ${btnDelete.btn_delete}")
     }
+
+    //dialog para confirmar exclusão
+    fun confirmExclude(btnDelete: ListaDeListas) {
+        val alertDialog = AlertDialog.Builder(context)
+            .setTitle("Apagar a lista")
+            .setMessage("Você tem certeza que quer apagar esta lista?")
+            .setIcon(R.drawable.ic_delete_24)
+
+            .setPositiveButton("Sim") { dialog, which ->
+                deleteList(btnDelete)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Não") { dialog, which ->
+                dialog.dismiss()
+            }
+        alertDialog.show()
+    }
+
 }
+
+
