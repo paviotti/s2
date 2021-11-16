@@ -134,7 +134,7 @@ class ListaCompletaFragment : Fragment(R.layout.fragment_lista_completa), ClickL
    //     Toast.makeText(context, "fim da tela", Toast.LENGTH_LONG).show()
     }
 
-    //atualiza a lista de produtos para somar os valores
+    //atualiza a lista de produtos para somar os valores - não está usando
     private fun updateSun(produto: Produto) {
 //        val alertDialog =
 //            AlertDialog.Builder(requireContext()).setTitle("Verificando quantidade ").create()

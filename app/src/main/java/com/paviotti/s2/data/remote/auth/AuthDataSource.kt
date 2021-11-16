@@ -46,7 +46,8 @@ class AuthDataSource {
         authResult.user?.uid?.let { uid ->
             FirebaseFirestore.getInstance().collection("users").document(uid)
                 /** aqui é gravado no Firestore os dados do usuario User.kt*/
-                .set(User(email, username, "photo_url.PNG a ser inserido depois")).await()
+              //  .set(User(email, username, "photo_url.PNG a ser inserido depois")).await()
+                .set(User(email, username)).await()
         }
         return authResult.user
     }
@@ -82,10 +83,10 @@ class AuthDataSource {
     suspend fun findImage(): String {
         var img = ""
         val user = FirebaseAuth.getInstance().currentUser
-        user?.let {
+        user?.uid?.let { uid ->
             val urlImage =
-                FirebaseFirestore.getInstance().collection("users").document(it?.uid).get().await()
-            img = urlImage.get("photo_url") as String
+                FirebaseFirestore.getInstance().collection("users").document(uid).get().await()
+                img = urlImage.get("photo_url") as String
         }
         return img
     }

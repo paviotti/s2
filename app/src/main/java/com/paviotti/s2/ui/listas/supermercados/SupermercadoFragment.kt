@@ -11,8 +11,7 @@ import androidx.lifecycle.Observer
 import com.paviotti.s2.R
 import com.paviotti.s2.core.Result
 import com.paviotti.s2.data.model.Supermercado
-import com.paviotti.s2.data.model.User
-import com.paviotti.s2.data.model.VarStatic.Companion.qteSelect
+import com.paviotti.s2.data.model.VarStatic.Companion.qteSupSelect
 import com.paviotti.s2.data.remote.supermercados.ListaSupermercadoDataSource
 import com.paviotti.s2.databinding.FragmentSupermercadoBinding
 import com.paviotti.s2.domain.supermercados.ListaSupermercadoRepositoryImplement
@@ -35,12 +34,12 @@ class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickList
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSupermercadoBinding.bind(view)
-        fetchLatestList()
+        getLatestListaSupermercado()
     }
 
     //faz a busca na lista do Firebase
-    fun fetchLatestList() {
-        viewModel.fetchLatestList().observe(viewLifecycleOwner, Observer { result ->
+    fun getLatestListaSupermercado() {
+        viewModel.getLatestListaSupermercado().observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is Result.Loading -> {
 
@@ -85,29 +84,33 @@ class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickList
 
     //acrescenta
     override fun onUnChkImgClick(supermercado: Supermercado) {
-        fetchLatestList()
+       // getLatestListaSupermercado()
       //  Log.d("aqui", "aquiUn: ${qteSelect}")
-        if (qteSelect <= 2) {
+     //   Log.d("aqui", "aqui: ${qteSupSelect}")
+
+        if (qteSupSelect <= 2) {
             ListaSupermercadosAdapter.gravar = true
             updateItem(supermercado)
 
-         //   Log.d("aqui", "aqui: ${qteSelect}")
         } else {
             Toast.makeText(context, "O máximo são 3 supermercados", Toast.LENGTH_SHORT).show()
         }
+        getLatestListaSupermercado()
     }
 
     //diminui
     override fun onChkImgClick(supermercado: Supermercado) {
-        fetchLatestList()
-       // Log.d("aqui", "aquiCh: ${qteSelect}")
-        if (qteSelect >= 0) {
+      //  getLatestListaSupermercado()
+    //    Log.d("aqui", "aqui: ${qteSupSelect}")
+        if (qteSupSelect >= 0) {
             ListaSupermercadosAdapter.gravar = false
             updateItem(supermercado)
+
 
         //    Log.d("aqui", "aqui: ${qteSelect}")
         } else {
             Toast.makeText(context, "O máximo são 3 supermercados", Toast.LENGTH_SHORT).show()
         }
+        getLatestListaSupermercado()
     }
 }

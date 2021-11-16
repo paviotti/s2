@@ -5,11 +5,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.paviotti.s2.core.Result
 import com.paviotti.s2.data.model.Supermercado
-import com.paviotti.s2.data.model.User
-import com.paviotti.s2.data.model.VarStatic.Companion.id_s1
-import com.paviotti.s2.data.model.VarStatic.Companion.id_s2
-import com.paviotti.s2.data.model.VarStatic.Companion.id_s3
-import com.paviotti.s2.data.model.VarStatic.Companion.qteSelect
+import com.paviotti.s2.data.model.VarStatic.Companion.qteSupSelect
 import com.paviotti.s2.ui.adapter.ListaSupermercadosAdapter.Companion.gravar
 import kotlinx.coroutines.tasks.await
 
@@ -29,54 +25,57 @@ class ListaSupermercadoDataSource {
 
         var conta = 0
         val listSupermarket = mutableListOf<Supermercado>()
-        val user = FirebaseAuth.getInstance().currentUser?.uid
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.uid?.let { uid ->
+            //aponta para a lista de supermercados
+            val referenceSupermarket = FirebaseFirestore.getInstance().collection("supermercados")
+            val querySnapshot = referenceSupermarket.get().await()
+            //cria a lista de supermercado
+            for (itemList in querySnapshot.documents) {
+                itemList.toObject(Supermercado::class.java)?.let { itens ->
 
+                    // Log.d("docsup","itemListId: ${itemList.id} itemListData: ${itemList.data} ")
+                    //"itens: ${itens.nome_fantasia} itemListData: ${itens.id_supermercado} ")
+                    val referenceSupermarketUser =
+                        FirebaseFirestore.getInstance().collection("supermercados")
+                            .document(itemList.id).collection("users")
+                    val querySnapshot2 = referenceSupermarketUser.get().await()
+                    //recupera os ids selecionados
+                    for (itemList2 in querySnapshot2.documents) {
 
-        //aponta para a lista de supermercados
-        val referenceSupermarket = FirebaseFirestore.getInstance().collection("supermercados")
-        val querySnapshot = referenceSupermarket.get().await()
-
-        //cria a lista de supermercado
-        for (itemList in querySnapshot.documents) {
-            itemList.toObject(Supermercado::class.java)?.let { itens ->
-                //  Log.d("docsup","itemListId: ${itemList.id} itemListData: ${itemList.data} ")
-                val referenceSupermarketUser =
-                    FirebaseFirestore.getInstance().collection("supermercados")
-                        .document(itemList.id).collection("users")
-                val querySnapshot2 = referenceSupermarketUser.get().await()
-                //recupera os ids selecionados
-                for (itemList2 in querySnapshot2.documents) {
-                    if (itemList2.getBoolean("selecionado") == true) {
-                        itens.selecionado = itemList2.getBoolean("selecionado") as Boolean
+                        if (itemList2.get("uid") == uid && itemList2.getBoolean("selecionado") == true) {
+                            itens.selecionado = itemList2.getBoolean("selecionado") as Boolean
+                        }
+//                        Log.d(
+//                            "qtde",
+//                            "itemListId2: ${itemList2.id}  selecionado: ${itemList2.getBoolean("selecionado")}  itens.selecionado: ${itens.selecionado} "
+//                        )
                     }
-                    Log.d(
-                        "qtde",
-                        "itemListId2: ${itemList2.id}  selecionado: ${itemList2.getBoolean("selecionado")}  itens.selecionado: ${itens.selecionado} "
-                    )
+                    listSupermarket.add(itens)
                 }
-                listSupermarket.add(itens)
             }
-        }
-        //varre a lista para atulaizar o contador de supermercados selecionados
-        for (res in listSupermarket) {
-            //soma os itens
-            if (res.selecionado) {
-                conta++ //soma
+            //varre a lista para atulaizar o contador de supermercados selecionados
+            for (res in listSupermarket) {
+                //soma os itens
+                if (res.selecionado) {
+                    conta++ //soma
+              //      Log.d("qtde", "conta: $conta ")
+                }
             }
-        }
-        contador(conta) //faz a contagem de supermercados selecionados
+            contador(conta) //faz a contagem de supermercados selecionados
 
-      //  Log.d("qtde", "listOriginal: ${contador(conta)} ")
+         //   Log.d("qtde", "contador(conta): ${contador(conta)} ")
+        }
         return Result.Success(listSupermarket)
     }
 
-    /** esta função conta a quantidade de supermercados escolhidos e arqmqzena no Firebase e le de volta*/
+    /** esta função conta a quantidade de supermercados escolhidos e armazena no Firebase e le de volta*/
     suspend fun contador(qtde: Int): Int {
-        val contador = hashMapOf("total" to qtde)
+        val contador = hashMapOf("total_sup_selec" to qtde)
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         userId?.let { uid ->
             val querySnapshotUser =
-                FirebaseFirestore.getInstance().collection("us").document(userId)
+                FirebaseFirestore.getInstance().collection("users").document(userId)
             //  FirebaseFirestore.getInstance().collection("us").document(userId).set(contador as Map<String, Any>)
             querySnapshotUser.update(contador as Map<String, Any>).await() //grava o contador
         }
@@ -84,17 +83,17 @@ class ListaSupermercadoDataSource {
         /**le e devolve o valor do contador*/
         var retornaSoma = 0
         val reference =
-            FirebaseFirestore.getInstance().collection("us").get().await()
+            FirebaseFirestore.getInstance().collection("users").get().await()
         for (itens in reference.documents) {
             if (itens.id == userId) {
                 // pega a quantidade se supermercados selecionados
-                val a = itens.get("total").toString()
-                qteSelect = 0
-                qteSelect = a.toInt()
+                val a = itens.get("total_sup_selec").toString()
+                qteSupSelect = 0
+                qteSupSelect = a.toInt()
                 retornaSoma = a.toInt()
             }
         }
-        // Log.d("contador", "${qteSelect}")
+     //   Log.d("contador", "${qteSupSelect}")
         return retornaSoma
     }
 
@@ -108,10 +107,10 @@ class ListaSupermercadoDataSource {
                     .whereEqualTo("id_supermercado", supermercado.id_supermercado).get().await()
             /** Se o uid existir em supermercado/users DELETA, senão insere*/
             for (itemId in querySnapshotUser.documents) {
-                val dados = hashMapOf("uid" to uid, "selecionado" to true)
+                val dados = hashMapOf("uid" to uid, "selecionado" to true) //grava dados linha 124
 
                 /** pesquisa em supermercado/document(?)/users/document(uid)
-                 * grava o id do cliente no supermercado */
+                 * grava o id do usuario no supermercado */
                 val query2 = FirebaseFirestore.getInstance().collection("supermercados")
                     .document(supermercado.id_supermercado)
                     .collection("users").whereEqualTo("uid", uid).get().await()
@@ -122,7 +121,7 @@ class ListaSupermercadoDataSource {
                         // if (supermercado.selecionado == true) {
                         FirebaseFirestore.getInstance().collection("supermercados")
                             .document(itemId.id)
-                            .collection("users").add(dados).await()
+                            .collection("users").add(dados).await() //grava os dados
                     } else {
                         // Log.d("qtde", "entrei aqui")
                         for (iduser in query2.documents) {
@@ -141,6 +140,7 @@ class ListaSupermercadoDataSource {
             }
 
         }
+        //  getLatestListaSupermercado()
     }
 
     //deve receber o id do supermercado escolhido

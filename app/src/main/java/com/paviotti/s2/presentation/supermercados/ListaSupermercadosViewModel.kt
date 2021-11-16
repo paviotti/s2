@@ -14,7 +14,7 @@ class ListaSupermercadosViewModel(private val repository: ListaSupermercadoRepos
     ViewModel() {
 
 
-    fun fetchLatestList() = liveData(Dispatchers.IO) {
+    fun getLatestListaSupermercado() = liveData(Dispatchers.IO) {
         emit(Result.Loading())
         try {
             emit(repository.getLatestListaSupermercado())

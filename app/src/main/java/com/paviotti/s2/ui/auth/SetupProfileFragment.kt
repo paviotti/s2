@@ -158,7 +158,11 @@ class SetupProfileFragment : Fragment(R.layout.fragment_setup_profile) {
                 is Result.Success -> {
                     //  Log.d("resultx", "${result.data}")
                     context?.let {
-                        Glide.with(it).load(result.data).circleCrop().into(binding.profileImage)
+                        if(result.data.isBlank()){
+                            binding.profileImage.setImageResource(R.drawable.ic_photo_24)
+                        }else {
+                            Glide.with(it).load(result.data).circleCrop().into(binding.profileImage)
+                        }
                     }
                 }
                 is Result.Failure -> {

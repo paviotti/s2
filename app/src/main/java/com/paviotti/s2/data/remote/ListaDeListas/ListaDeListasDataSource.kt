@@ -78,7 +78,7 @@ class ListaDeListasDataSource {
             val listReference = FirebaseFirestore.getInstance().collection("users").document(it)
                 .collection("listas_de_compras").document(btnDelete.id_lista)
             listReference.delete().await()
-            Log.d("apagar", "${btnDelete.id_lista}")
+       //     Log.d("apagar", "${btnDelete.id_lista}")
         }
 
     }

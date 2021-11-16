@@ -1,7 +1,6 @@
 package com.paviotti.s2.ui.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.paviotti.s2.core.Base.BaseViewHolder
 import com.paviotti.s2.data.model.Supermercado
-import com.paviotti.s2.data.model.VarStatic.Companion.qteSelect
 import com.paviotti.s2.databinding.CardNomesSupermercadoBinding
 import com.paviotti.s2.presentation.supermercados.ClickListSupermercados
-import com.paviotti.s2.ui.listas.supermercados.SupermercadoFragment
 
 class ListaSupermercadosAdapter(
     private val listSupermarket: List<Supermercado>,
@@ -84,7 +81,8 @@ class ListaSupermercadosAdapter(
                 binding.imgChkSelected.visibility = View.VISIBLE
                 binding.imgUnChkSelected.visibility = View.INVISIBLE
             }
-            //Log.d("qtdeIc", "selecionado:  ${item.selecionado} Gravar: $gravar ${item.nome_fantasia}")
+           // Log.d("qtdeIc", "selecionado:  ${item.selecionado} Gravar: $gravar ${item.nome_fantasia}")
+          //  Log.d("adapterr","nome: ${item.nome_fantasia}")
         }
 
     }

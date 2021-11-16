@@ -21,6 +21,7 @@ class VarStatic {
         var nome_s3 = ""
 
         //supermercado
-        var qteSelect = 0
+        var qteSupSelect = 0
+
     }
 }

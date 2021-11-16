@@ -22,6 +22,8 @@ class ListaCompletaDataSource {
     var tot_c1 = 0.0
     var tot_c2 = 0.0
     var tot_c3 = 0.0
+
+
     // var myQuery: Query? = null
 
     /** Esta classe lê a tabela produto completa (principal)*/
@@ -29,10 +31,9 @@ class ListaCompletaDataSource {
         total_s1 = 0.0
         total_s2 = 0.0
         total_s3 = 0.0
-
         findSupermarketSelected() //chama quando entra em qualquer lista
         val listProdutos = mutableListOf<Produto>()
-       // Log.d("lista", "nameListFull: $nameListFull e idList $idList")
+        // Log.d("lista", "nameListFull: $nameListFull e idList $idList")
         val user = FirebaseAuth.getInstance().currentUser
         user?.uid?.let { uid ->
             /** deve ler os dados em produtos e pegar os nomes (itens)*/
@@ -233,35 +234,37 @@ class ListaCompletaDataSource {
             val referenceSupermarket = FirebaseFirestore.getInstance().collection("supermercados")
             val idsInSupermercado = referenceSupermarket.get().await()
             for (idSup in idsInSupermercado) {
-
+     //           Log.d("supermercados", "itens.idSup: ${idSup.id}")
                 val referenceIdUserSupermercado =
                     FirebaseFirestore.getInstance().collection("supermercados").document(idSup.id)
                         .collection("users").get().await()
                 referenceIdUserSupermercado.documents.forEach { itens ->
-                    qtde++
-                    //    Log.d("supermercados", "itens.idSup: ${idSup.id}")
-                    //     Log.d("supermercados", "itens.Nome: ${idSup.get("nome_fantasia")}")
-                    //   Log.d("supermercados", "itens.ids: ${itens.get("uid")}")
+                    if (itens.get("uid") == uid) {
+                        qtde++
 
-                    when (qtde) {
-                        1 -> {
-                            id_s1 = idSup.id //passa o id do supermercado para a varivel global
-                            nome_s1 = idSup.get("nome_fantasia")
-                                .toString() //passa o nome ndo supermercado
+//                         Log.d("supermercados", "itens.Nome: ${idSup.get("nome_fantasia")}")
+//                       Log.d("supermercados", "itens.ids: ${itens.get("uid")}")
+
+                        when (qtde) {
+                            1 -> {
+                                id_s1 = idSup.id //passa o id do supermercado para a varivel global
+                                nome_s1 = idSup.get("nome_fantasia")
+                                    .toString() //passa o nome ndo supermercado
+                            }
+                            2 -> {
+                                id_s2 = idSup.id
+                                nome_s2 = idSup.get("nome_fantasia").toString()
+                            }
+                            3 -> {
+                                id_s3 = idSup.id
+                                nome_s3 = idSup.get("nome_fantasia").toString()
+                            }
                         }
-                        2 -> {
-                            id_s2 = idSup.id
-                            nome_s2 = idSup.get("nome_fantasia").toString()
-                        }
-                        3 -> {
-                            id_s3 = idSup.id
-                            nome_s3 = idSup.get("nome_fantasia").toString()
-                        }
+                        Log.d(
+                            "supermercadosx",
+                            "qtde: ${qtde} ids1: $id_s1, ids1: $id_s2, ids1: $id_s3"
+                        )
                     }
-//                    Log.d(
-//                        "supermercadosx",
-//                        "soma: ${qtde} ids1: $id_s1, ids1: $id_s2, ids1: $id_s3"
-//                    )
                 }
             }
         }
