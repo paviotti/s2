@@ -22,6 +22,7 @@ class VarStatic {
 
         //supermercado
         var qteSupSelect = 0
+        var gravar = false
 
     }
 }

@@ -8,7 +8,8 @@ import com.paviotti.s2.data.model.Produto
 import com.paviotti.s2.domain.lista_completa.ListaCompletaRepository
 import kotlinx.coroutines.Dispatchers
 
-/** ListaDeListasViewModel recebe <-  ListaDeListasRepositoryFactory */
+/** ListaDeListasViewModel recebe <-  ListaDeListasRepositoryFactory
+ * (private val repository: ListaCompletaRepository) é uma interface*/
 class ListaCompletaViewModel(private val repository: ListaCompletaRepository) : ViewModel() {
 
     //fetch = buscar | busca em segundo plano para não bloquear o app
@@ -23,9 +24,9 @@ class ListaCompletaViewModel(private val repository: ListaCompletaRepository) : 
 
     fun createNewItem(produto: Produto) = liveData(Dispatchers.IO) {
         emit(Result.Loading())
-        try{
+        try {
             emit(Result.Success(repository.createItemLista(produto)))
-        }catch (e: Exception){
+        } catch (e: Exception) {
             emit(Result.Failure(e))
         }
     }
@@ -35,37 +36,38 @@ class ListaCompletaViewModel(private val repository: ListaCompletaRepository) : 
         emit(Result.Loading())
         try {
             emit(Result.Success(repository.updateItemLista(produto)))
-        }catch (e:Exception){
+        } catch (e: Exception) {
             emit(Result.Failure(e))
         }
     }
 
-    fun updateSun(produto: Produto) = liveData(Dispatchers.IO){
+    fun updateSun(produto: Produto) = liveData(Dispatchers.IO) {
         emit(Result.Loading())
         try {
             emit(Result.Success(repository.updateSun(produto)))
 
-        }catch (e: java.lang.Exception){
+        } catch (e: java.lang.Exception) {
             emit(Result.Failure(e))
         }
-    }
-
-
-
-}
-
-class ListaCompletaViewModelFactory(private val repository: ListaCompletaRepository) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modeClass: Class<T>): T {
-        return modeClass.getConstructor(ListaCompletaRepository::class.java).newInstance(repository)
     }
 
     fun creatNewItemList(newItem: Produto) = liveData(Dispatchers.IO) {
         emit(Result.Loading())
-        try{
+        try {
             emit(Result.Success(repository.createItemLista(newItem)))
-        }catch (e:Exception){
+        } catch (e: Exception) {
             emit(Result.Failure(e))
         }
+
     }
+}
+
+/** .newInstance(repository) retorna uma nova instância para viewModel*/
+class ListaCompletaViewModelFactory(private val repository: ListaCompletaRepository) :
+    ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modeClass: Class<T>): T {
+        return modeClass.getConstructor(ListaCompletaRepository::class.java)
+            .newInstance(repository)
+    }
+
 }

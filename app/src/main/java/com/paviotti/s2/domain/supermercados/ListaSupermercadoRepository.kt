@@ -7,5 +7,5 @@ import com.paviotti.s2.data.model.User
 interface ListaSupermercadoRepository {
     suspend fun getLatestListaSupermercado():Result<List<Supermercado>>
     suspend fun updateItem(supermercado: Supermercado)
-    suspend fun insertUser(supermercado: Supermercado)
+  //  suspend fun insertUser(supermercado: Supermercado)
 }

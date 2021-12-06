@@ -85,6 +85,13 @@ class ListaDeListasFragment : Fragment(R.layout.fragment_lista_de_listas), Click
                     binding.progressBar.visibility = View.VISIBLE
                 }
                 is Result.Success -> {
+                    if (result.data.isEmpty()){
+                        binding.emptyLista.visibility = View.VISIBLE
+                        return@Observer
+                    }else{
+                        binding.emptyLista.visibility = View.GONE
+                    }
+
                     binding.progressBar.visibility = View.GONE
                     binding.rvListasDeListas.adapter = ListaDeListasAdapter(
                         result.data,

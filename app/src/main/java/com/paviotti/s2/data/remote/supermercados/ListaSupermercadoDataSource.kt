@@ -5,29 +5,24 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.paviotti.s2.core.Result
 import com.paviotti.s2.data.model.Supermercado
+import com.paviotti.s2.data.model.VarStatic.Companion.gravar
 import com.paviotti.s2.data.model.VarStatic.Companion.qteSupSelect
-import com.paviotti.s2.ui.adapter.ListaSupermercadosAdapter.Companion.gravar
 import kotlinx.coroutines.tasks.await
 
-/**funcionamento
- * Ao clicar no icone da lista de supermercados, um usuario é incluído nos campos s1, s2, s3 de   "users"
- * Ao desmarcar o usuario é apagado é apagado
+/**funcionamento da classe
+ * Ao clicar no icone da lista de supermercados, um usuario é incluído em supermercados/id/users/id/uid
+ * Ao desmarcar o usuario é apagado
  * Se o usuário existir em getLatestListaSupermercado() o supermercado é marcado
  * Permite até 3 clicks
  * */
 class ListaSupermercadoDataSource {
 
-//    companion object {
-//        var qteSelect = 0
-//    }
-
     suspend fun getLatestListaSupermercado(): Result<List<Supermercado>> {
-
         var conta = 0
         val listSupermarket = mutableListOf<Supermercado>()
         val user = FirebaseAuth.getInstance().currentUser
         user?.uid?.let { uid ->
-            //aponta para a lista de supermercados
+            /**aponta para a colection supermercados*/
             val referenceSupermarket = FirebaseFirestore.getInstance().collection("supermercados")
             val querySnapshot = referenceSupermarket.get().await()
             //cria a lista de supermercado
@@ -36,30 +31,29 @@ class ListaSupermercadoDataSource {
 
                     // Log.d("docsup","itemListId: ${itemList.id} itemListData: ${itemList.data} ")
                     //"itens: ${itens.nome_fantasia} itemListData: ${itens.id_supermercado} ")
+
+                    /**aponta para a lista de usuarios de cada supermercado*/
                     val referenceSupermarketUser =
                         FirebaseFirestore.getInstance().collection("supermercados")
                             .document(itemList.id).collection("users")
                     val querySnapshot2 = referenceSupermarketUser.get().await()
                     //recupera os ids selecionados
+                    /**Se o usuario atual constar na lista de usuarios do supermercado e
+                     * tiver selecionado este supermercado, marca com selecionado */
                     for (itemList2 in querySnapshot2.documents) {
-
                         if (itemList2.get("uid") == uid && itemList2.getBoolean("selecionado") == true) {
                             itens.selecionado = itemList2.getBoolean("selecionado") as Boolean
                         }
-//                        Log.d(
-//                            "qtde",
-//                            "itemListId2: ${itemList2.id}  selecionado: ${itemList2.getBoolean("selecionado")}  itens.selecionado: ${itens.selecionado} "
-//                        )
                     }
                     listSupermarket.add(itens)
                 }
             }
-            //varre a lista para atulaizar o contador de supermercados selecionados
+            //varre a lista para atualizar o contador de supermercados selecionados
             for (res in listSupermarket) {
                 //soma os itens
                 if (res.selecionado) {
-                    conta++ //soma
-              //      Log.d("qtde", "conta: $conta ")
+                    conta++ //soma os supermercados selecionados
+                  //  Log.d("aqui", "conta: $conta ")
                 }
             }
             contador(conta) //faz a contagem de supermercados selecionados
@@ -69,18 +63,17 @@ class ListaSupermercadoDataSource {
         return Result.Success(listSupermarket)
     }
 
-    /** esta função conta a quantidade de supermercados escolhidos e armazena no Firebase e le de volta*/
+    /** esta função conta a quantidade de supermercados escolhidos e armazena no user Firebase e le de volta*/
     suspend fun contador(qtde: Int): Int {
         val contador = hashMapOf("total_sup_selec" to qtde)
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         userId?.let { uid ->
             val querySnapshotUser =
                 FirebaseFirestore.getInstance().collection("users").document(userId)
-            //  FirebaseFirestore.getInstance().collection("us").document(userId).set(contador as Map<String, Any>)
-            querySnapshotUser.update(contador as Map<String, Any>).await() //grava o contador
+            querySnapshotUser.update(contador as Map<String, Any>).await() //grava o contador em usuarios
         }
 
-        /**le e devolve o valor do contador*/
+        /** função auxiliar, lê e devolve o valor do contador*/
         var retornaSoma = 0
         val reference =
             FirebaseFirestore.getInstance().collection("users").get().await()
@@ -97,7 +90,6 @@ class ListaSupermercadoDataSource {
         return retornaSoma
     }
 
-
     /** insere ou exclui a seleção do supermercado da lista */
     suspend fun updateItem(supermercado: Supermercado) {
         val userId = FirebaseAuth.getInstance().currentUser?.uid
@@ -107,9 +99,9 @@ class ListaSupermercadoDataSource {
                     .whereEqualTo("id_supermercado", supermercado.id_supermercado).get().await()
             /** Se o uid existir em supermercado/users DELETA, senão insere*/
             for (itemId in querySnapshotUser.documents) {
-                val dados = hashMapOf("uid" to uid, "selecionado" to true) //grava dados linha 124
+                val dados = hashMapOf("uid" to uid, "selecionado" to true) //grava dados linha 126
 
-                /** pesquisa em supermercado/document(?)/users/document(uid)
+                /** pesquisa o usuario em supermercado/document(*)/users/document(uid)
                  * grava o id do usuario no supermercado */
                 val query2 = FirebaseFirestore.getInstance().collection("supermercados")
                     .document(supermercado.id_supermercado)
@@ -144,19 +136,19 @@ class ListaSupermercadoDataSource {
     }
 
     //deve receber o id do supermercado escolhido
-    suspend fun insertUser(supermercado: Supermercado) {
-        val user = FirebaseAuth.getInstance().currentUser
-        user?.uid?.let { uid ->
-            val referenceSupermarket = FirebaseFirestore.getInstance().collection("users")
-            // referenceSupermarket.add()
-            val querySnapshot = referenceSupermarket.get().await()
-            for (itens in querySnapshot.documents) {
-                if (itens.id != uid) {
-                    //   Log.d("insertUser", "IdExistente: $supermercado.i")
-                }
-            }
-        }
-    }
+//    suspend fun insertUser(supermercado: Supermercado) {
+//        val user = FirebaseAuth.getInstance().currentUser
+//        user?.uid?.let { uid ->
+//            val referenceSupermarket = FirebaseFirestore.getInstance().collection("users")
+//            // referenceSupermarket.add()
+//            val querySnapshot = referenceSupermarket.get().await()
+//            for (itens in querySnapshot.documents) {
+//                if (itens.id != uid) {
+//                    //   Log.d("insertUser", "IdExistente: $supermercado.i")
+//                }
+//            }
+//        }
+//    }
 
 
 }

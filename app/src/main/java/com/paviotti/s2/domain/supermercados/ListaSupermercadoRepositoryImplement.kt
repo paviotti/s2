@@ -15,7 +15,7 @@ class ListaSupermercadoRepositoryImplement(private val dataSource: ListaSupermer
        return dataSource.updateItem(supermercado)
     }
 
-    override suspend fun insertUser(supermercado: Supermercado) {
-        return dataSource.insertUser(supermercado)
-    }
+//    override suspend fun insertUser(supermercado: Supermercado) {
+//        return dataSource.insertUser(supermercado)
+//    }
 }

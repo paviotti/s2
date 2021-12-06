@@ -15,9 +15,9 @@ class ListaSupermercadosAdapter(
     private val listSupermarket: List<Supermercado>,
     private val itemClickList: ClickListSupermercados
 ) : RecyclerView.Adapter<BaseViewHolder<*>>() {
-    companion object {
-        var gravar = false
-    }
+//    companion object {
+//        var gravar = false
+//    }
 
     /** cria o post, ou seja a telinha com todas as informações*/
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
@@ -32,12 +32,7 @@ class ListaSupermercadosAdapter(
             val position =
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener
-      //      if (qteSelect < 3) {
-                // SupermercadoFragment.qteSelect++ //incrementa
-                //   itemBinding.imgUnChkSelected.visibility = View.INVISIBLE
-                //   itemBinding.imgChkSelected.visibility = View.VISIBLE
-                // listSupermarket[position].selecionado = true
-   //         }
+
             itemClickList.onUnChkImgClick(listSupermarket[position]) //passa a lista de supermercados ao clicar na imagem
             notifyDataSetChanged() //redesenha a reciclerView = https://www.youtube.com/watch?v=0SdXoQ1g7RQ
         }
@@ -47,12 +42,7 @@ class ListaSupermercadosAdapter(
             val position =
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener
-     //       if (qteSelect > 0) {
-                //  SupermercadoFragment.qteSelect-- //decrementa
-                // itemBinding.imgChkSelected.visibility = View.INVISIBLE
-                //  itemBinding.imgUnChkSelected.visibility = View.VISIBLE
-                //listSupermarket[position].selecionado = false
-    //        }
+
             itemClickList.onChkImgClick(listSupermarket[position]) //passa a lista de supermercados ao clicar na imagem
             notifyDataSetChanged() //redesenha a reciclerView = https://www.youtube.com/watch?v=0SdXoQ1g7RQ
         }

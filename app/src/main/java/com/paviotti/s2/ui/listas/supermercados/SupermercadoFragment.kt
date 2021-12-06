@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import com.paviotti.s2.R
 import com.paviotti.s2.core.Result
 import com.paviotti.s2.data.model.Supermercado
+import com.paviotti.s2.data.model.VarStatic.Companion.gravar
 import com.paviotti.s2.data.model.VarStatic.Companion.qteSupSelect
 import com.paviotti.s2.data.remote.supermercados.ListaSupermercadoDataSource
 import com.paviotti.s2.databinding.FragmentSupermercadoBinding
@@ -20,8 +21,8 @@ import com.paviotti.s2.presentation.supermercados.ListaSupermercadosViewModel
 import com.paviotti.s2.presentation.supermercados.ListaSupermercadosViewModelFactory
 import com.paviotti.s2.ui.adapter.ListaSupermercadosAdapter
 
+/**classe responsável pelo código do fragment do supermercados*/
 class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickListSupermercados {
-
     private lateinit var binding: FragmentSupermercadoBinding
     private val viewModel by viewModels<ListaSupermercadosViewModel> {
         ListaSupermercadosViewModelFactory(
@@ -37,7 +38,7 @@ class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickList
         getLatestListaSupermercado()
     }
 
-    //faz a busca na lista do Firebase
+    /**faz a busca na lista do Firebase*/
     fun getLatestListaSupermercado() {
         viewModel.getLatestListaSupermercado().observe(viewLifecycleOwner, Observer { result ->
             when (result) {
@@ -63,6 +64,38 @@ class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickList
         })
     }
 
+    /**Recebe o click no checkbox não selecionado e insere no banco em user(total_sup_selec) */
+    override fun onUnChkImgClick(supermercado: Supermercado) {
+        // getLatestListaSupermercado()
+        //  Log.d("aqui", "aquiUn: ${qteSelect}")
+        Log.d("aqui", "aqui: ${qteSupSelect}")
+
+        if (qteSupSelect <= 2) {
+            gravar = true
+            updateItem(supermercado)
+        //    Log.d("aqui", "aqui2: ${qteSupSelect}")
+        } else {
+            Toast.makeText(context, "O máximo são 3 supermercados", Toast.LENGTH_SHORT).show()
+        }
+        getLatestListaSupermercado()
+    }
+
+    /**Recebe o click no checkbox selecionado e remove no banco em user(total_sup_selec) */
+    override fun onChkImgClick(supermercado: Supermercado) {
+        //  getLatestListaSupermercado()
+       // Log.d("aqui", "aqui: ${qteSupSelect}")
+        if (qteSupSelect >= 0) {
+            gravar = false
+            updateItem(supermercado)
+
+            //    Log.d("aqui", "aqui: ${qteSelect}")
+        } else {
+            Toast.makeText(context, "O máximo são 3 supermercados", Toast.LENGTH_SHORT).show()
+        }
+        getLatestListaSupermercado()
+    }
+
+    /** insere ou exclui a seleção do supermercado da lista */
     fun updateItem(supermercado: Supermercado) {
         val alertDialog =
             AlertDialog.Builder(requireContext()).setTitle("Atualizando Supermercado").create()
@@ -80,37 +113,5 @@ class SupermercadoFragment : Fragment(R.layout.fragment_supermercado), ClickList
                 }
             }
         })
-    }
-
-    //acrescenta
-    override fun onUnChkImgClick(supermercado: Supermercado) {
-       // getLatestListaSupermercado()
-      //  Log.d("aqui", "aquiUn: ${qteSelect}")
-     //   Log.d("aqui", "aqui: ${qteSupSelect}")
-
-        if (qteSupSelect <= 2) {
-            ListaSupermercadosAdapter.gravar = true
-            updateItem(supermercado)
-
-        } else {
-            Toast.makeText(context, "O máximo são 3 supermercados", Toast.LENGTH_SHORT).show()
-        }
-        getLatestListaSupermercado()
-    }
-
-    //diminui
-    override fun onChkImgClick(supermercado: Supermercado) {
-      //  getLatestListaSupermercado()
-    //    Log.d("aqui", "aqui: ${qteSupSelect}")
-        if (qteSupSelect >= 0) {
-            ListaSupermercadosAdapter.gravar = false
-            updateItem(supermercado)
-
-
-        //    Log.d("aqui", "aqui: ${qteSelect}")
-        } else {
-            Toast.makeText(context, "O máximo são 3 supermercados", Toast.LENGTH_SHORT).show()
-        }
-        getLatestListaSupermercado()
     }
 }
